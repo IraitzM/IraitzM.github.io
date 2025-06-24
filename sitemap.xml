@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://IraitzM.github.io/index.html</loc>
-    <lastmod>2025-06-24T15:53:29.376Z</lastmod>
-  </url>
-  <url>
-    <loc>https://IraitzM.github.io/posts/qubits/index.html</loc>
-    <lastmod>2025-06-24T15:57:51.396Z</lastmod>
+    <loc>https://IraitzM.github.io/posts/qutip-simulations/index.html</loc>
+    <lastmod>2025-06-24T17:26:09.658Z</lastmod>
   </url>
   <url>
     <loc>https://IraitzM.github.io/posts/welcome/welcome.html</loc>
-    <lastmod>2025-06-24T15:53:29.379Z</lastmod>
+    <lastmod>2025-06-24T17:26:09.658Z</lastmod>
+  </url>
+  <url>
+    <loc>https://IraitzM.github.io/posts/quantum-gates/index.html</loc>
+    <lastmod>2025-06-24T17:26:09.655Z</lastmod>
   </url>
   <url>
     <loc>https://IraitzM.github.io/about.html</loc>
-    <lastmod>2025-06-24T15:53:29.318Z</lastmod>
+    <lastmod>2025-06-24T17:26:09.593Z</lastmod>
+  </url>
+  <url>
+    <loc>https://IraitzM.github.io/index.html</loc>
+    <lastmod>2025-06-24T17:26:09.655Z</lastmod>
+  </url>
+  <url>
+    <loc>https://IraitzM.github.io/posts/qubits-code/index.html</loc>
+    <lastmod>2025-06-24T17:26:09.656Z</lastmod>
+  </url>
+  <url>
+    <loc>https://IraitzM.github.io/posts/qubits/index.html</loc>
+    <lastmod>2025-06-24T17:26:09.656Z</lastmod>
   </url>
 </urlset>

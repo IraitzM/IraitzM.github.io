@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Iraitz Montalban">
-<meta name="dcterms.date" content="2025-01-01">
+<meta name="dcterms.date" content="2025-06-24">
 
-<title>Welcome – Iraitz’s blog</title>
+<title>Coding my own simulator – Iraitz’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -116,9 +180,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Welcome</h1>
+      <h1 class="title">Coding my own simulator</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">news</div>
+                <div class="quarto-category">qc</div>
+                <div class="quarto-category">code</div>
               </div>
                   </div>
   </div>
@@ -136,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 1, 2025</p>
+        <p class="date">June 24, 2025</p>
       </div>
     </div>
     
@@ -155,11 +220,174 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Hi! My name is Iraitz Montalban and I love to mess around with technology.</p>
-<p>Actually I am using this blog to explore new-<em>ish</em> technology and explain things so other can benefit from it and meanwhile, I can get a better understanding on it. So, sometimes I will be talking about Python or Julia and the controversy around which one is best, will be exploring really basic stuff so I can refresh my memory, maybe review a paper or simply just play around with a new tool.</p>
-<p>I will just let my curiosity drive this thing wherever it takes me. Happy that you want to join me.</p>
+<p>After all the concepts we have seen before like <a href="../qubits/">qubits</a> and <a href="../quantum-gates/">gates</a> we should see them in action. See how some of the basis look, like:</p>
+<ul>
+<li>Basis <span class="math inline">\(|0\rangle\)</span> and <span class="math inline">\(|1\rangle\)</span> state.</li>
+<li>Tensor product operations</li>
+<li>And the universal set of gates (<span class="math inline">\(R_x(\theta), R_x(\theta), R_x(\theta), P(\phi)\)</span> phase shift gate and <span class="math inline">\(CNOT\)</span> may suffice).</li>
+</ul>
+<p>We can then create our own set of functions and objects to simulate those computations. Let go.</p>
+<section id="from-scratch" class="level3">
+<h3 class="anchored" data-anchor-id="from-scratch">From scratch</h3>
+<p>We would easily create basic vector structures for our <em>quantum framework</em>. The minimum unit is the qubit and in order to frame the potential quantum states it may hold we would need to create the computational basis set <span class="math inline">\(\{|0\rangle, |1\rangle \}\)</span>.</p>
+<div id="cell-zero-state" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qiskit.visualization <span class="im">import</span> array_to_latex</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>zero <span class="op">=</span> [[<span class="dv">1</span>], [<span class="dv">0</span>]]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>one <span class="op">=</span> [[<span class="dv">0</span>], [<span class="dv">1</span>]]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>zero, prefix<span class="op">=</span><span class="st">'|0</span><span class="ch">\\</span><span class="st">rangle = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="zero-state" class="cell-output cell-output-display cell-output-markdown" data-execution_count="1">
+<p><span class="math display">\[
+|0\rangle =
+\begin{bmatrix}
+1  \\
+0  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<div id="cell-one-state" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>one, prefix<span class="op">=</span><span class="st">'|1</span><span class="ch">\\</span><span class="st">rangle = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="one-state" class="cell-output cell-output-display cell-output-markdown" data-execution_count="2">
+<p><span class="math display">\[
+|1\rangle =
+\begin{bmatrix}
+0  \\
+1  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<p>Now lets try with some gates.</p>
+<p><span class="math display">\[
+X = \left[
+\begin{array}{cc}
+0 &amp; 1 \\
+1 &amp; 0
+\end{array}
+\right] \quad
+H = \frac{1}{\sqrt{2}}\left[
+\begin{array}{cc}
+1 &amp; 1 \\
+1 &amp; -1
+\end{array}
+\right]
+\]</span></p>
+<div id="cell-not-gate" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> [[<span class="dv">0</span>,<span class="dv">1</span>],[<span class="dv">1</span>,<span class="dv">0</span>]]</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>X, prefix<span class="op">=</span><span class="st">'X = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="not-gate" class="cell-output cell-output-display cell-output-markdown" data-execution_count="3">
+<p><span class="math display">\[
+X =
+\begin{bmatrix}
+0 &amp; 1  \\
+1 &amp; 0  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<div id="cell-hadamard-gate" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>hadamard <span class="op">=</span> np.dot((<span class="dv">1</span><span class="op">/</span>(np.sqrt(<span class="dv">2</span>))), [[<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="op">-</span><span class="dv">1</span>]])</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>hadamard, prefix<span class="op">=</span><span class="st">'H = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="hadamard-gate" class="cell-output cell-output-display cell-output-markdown" data-execution_count="4">
+<p><span class="math display">\[
+H =
+\begin{bmatrix}
+\frac{\sqrt{2}}{2} &amp; \frac{\sqrt{2}}{2}  \\
+\frac{\sqrt{2}}{2} &amp; - \frac{\sqrt{2}}{2}  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<p>Well, it is already taking shape. We can test if the outcome matches our expectations.</p>
+<div id="cell-superposition" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>superposition <span class="op">=</span> np.dot(hadamard, zero)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>superposition, prefix<span class="op">=</span><span class="st">'H|0</span><span class="ch">\\</span><span class="st">rangle = |+</span><span class="ch">\\</span><span class="st">rangle = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="superposition" class="cell-output cell-output-display cell-output-markdown" data-execution_count="5">
+<p><span class="math display">\[
+H|0\rangle = |+\rangle =
+\begin{bmatrix}
+\frac{\sqrt{2}}{2}  \\
+\frac{\sqrt{2}}{2}  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<div id="cell-not-operation" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>one <span class="op">=</span> np.dot(X, zero)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>one, prefix<span class="op">=</span><span class="st">'X|0</span><span class="ch">\\</span><span class="st">rangle = |1</span><span class="ch">\\</span><span class="st">rangle = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="not-operation" class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
+<p><span class="math display">\[
+X|0\rangle = |1\rangle =
+\begin{bmatrix}
+0  \\
+1  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<p>We can scale it to a couple of qubits to see what we get. Let’s try to create on of the bell states we saw during class.</p>
+<p><span class="math display">\[
+|\Phi^{+}\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \quad |\Phi^{-}\rangle = \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle) \\
+|\Psi^{+}\rangle = \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle) \quad |\Psi^{-}\rangle = \frac{1}{\sqrt{2}}(|10\rangle - |10\rangle)
+\]</span></p>
+<p>We will need the CNOT gate for this.</p>
+<div id="cell-cnot-operation" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>CNOT <span class="op">=</span> [[<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>],[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>],[<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>],[<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>]]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>CNOT, prefix<span class="op">=</span><span class="st">'CNOT = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cnot-operation" class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
+<p><span class="math display">\[
+CNOT =
+\begin{bmatrix}
+1 &amp; 0 &amp; 0 &amp; 0  \\
+0 &amp; 1 &amp; 0 &amp; 0  \\
+0 &amp; 0 &amp; 0 &amp; 1  \\
+0 &amp; 0 &amp; 1 &amp; 0  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<p>With this we will create a two qubit system, apply the Hadamard gate to the first one and the CNOT gate with the control over the first qubit as well.</p>
+<div id="entanglement-operation" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial state</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>init_state <span class="op">=</span> np.kron(zero, zero)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># (I tensor Hadamard)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>HI <span class="op">=</span> np.kron(hadamard, np.eye(<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With that we can perform the full operation.</p>
+<p><span class="math display">\[
+CNOT (I\otimes H)|00\rangle = |\Phi^{+}\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle
+\]</span></p>
+<div id="cell-entangled-state" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>psi_1 <span class="op">=</span> np.dot(HI, init_state)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>psi <span class="op">=</span> np.dot(CNOT, psi_1)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>psi, prefix<span class="op">=</span><span class="st">'|</span><span class="ch">\\</span><span class="st">psi</span><span class="ch">\\</span><span class="st">rangle = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="entangled-state" class="cell-output cell-output-display cell-output-markdown" data-execution_count="9">
+<p><span class="math display">\[
+|\psi\rangle =
+\begin{bmatrix}
+\frac{\sqrt{2}}{2}  \\
+0  \\
+0  \\
+\frac{\sqrt{2}}{2}  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<p>There you go. This is our entangled 2-qubit state. Building the whole formalism from scratch might be tedious, but it helps us understand every detail of it.</p>
+<p>Of course, in order to continue forward, we will take advantage of the collective effort and use some existing tools like <a href="../qutip">QuTip</a> to ease our way into quantum computing.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

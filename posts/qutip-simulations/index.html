@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Iraitz Montalban">
-<meta name="dcterms.date" content="2025-01-01">
+<meta name="dcterms.date" content="2025-06-24">
 
-<title>Welcome – Iraitz’s blog</title>
+<title>Using QuTip – Iraitz’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -70,6 +105,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -116,9 +180,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Welcome</h1>
+      <h1 class="title">Using QuTip</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">news</div>
+                <div class="quarto-category">qc</div>
+                <div class="quarto-category">code</div>
               </div>
                   </div>
   </div>
@@ -136,7 +201,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 1, 2025</p>
+        <p class="date">June 24, 2025</p>
       </div>
     </div>
     
@@ -155,9 +220,162 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Hi! My name is Iraitz Montalban and I love to mess around with technology.</p>
-<p>Actually I am using this blog to explore new-<em>ish</em> technology and explain things so other can benefit from it and meanwhile, I can get a better understanding on it. So, sometimes I will be talking about Python or Julia and the controversy around which one is best, will be exploring really basic stuff so I can refresh my memory, maybe review a paper or simply just play around with a new tool.</p>
-<p>I will just let my curiosity drive this thing wherever it takes me. Happy that you want to join me.</p>
+<p><a href="https://qutip.org/">QuTip</a> is a superb Python library to simulate the dynamics of open quantum systems</p>
+<div id="qutip-simulation" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qutip <span class="im">import</span> Qobj, mesolve</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qutip <span class="im">import</span> basis, tensor</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qutip.qip.operations <span class="im">import</span> cnot</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Basis states</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>zero <span class="op">=</span> basis(<span class="dv">2</span>,<span class="dv">0</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>one <span class="op">=</span> basis(<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># |10&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>one_zero <span class="op">=</span> tensor(one, zero)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># CNOT</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>hamiltonian <span class="op">=</span> cnot().full()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># e^itH</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>u_generator <span class="op">=</span> Qobj(<span class="ot">1j</span> <span class="op">*</span> scipy.linalg.logm(hamiltonian), dims<span class="op">=</span>[[<span class="dv">2</span>] <span class="op">*</span> <span class="dv">2</span>] <span class="op">*</span> <span class="dv">2</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Time range 0.0 -&gt; 1.0</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="fl">1.1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># \psi = H\psi_0</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>evolution <span class="op">=</span> mesolve(u_generator, one_zero, times)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-initial-state" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>evolution.states[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="initial-state" class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>Quantum object: dims=[[2, 2], [1]], shape=(4, 1), type='ket', dtype=Dense
+Qobj data =
+[[0.]
+ [0.]
+ [1.]
+ [0.]]</code></pre>
+</div>
+</div>
+<p>This is our initial state. Where will it be at the next step of our evolution?</p>
+<div id="cell-step-one" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>evolution.states[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="step-one" class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>Quantum object: dims=[[2, 2], [1]], shape=(4, 1), type='ket', dtype=Dense
+Qobj data =
+[[0.        +0.j        ]
+ [0.        +0.j        ]
+ [0.97552824+0.15450855j]
+ [0.02447175-0.15450855j]]</code></pre>
+</div>
+</div>
+<p>And at the end?</p>
+<div id="cell-final-state" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>evolution.states[<span class="op">-</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="final-state" class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>Quantum object: dims=[[2, 2], [1]], shape=(4, 1), type='ket', dtype=Dense
+Qobj data =
+[[0.00000000e+00+0.00000000e+00j]
+ [0.00000000e+00+0.00000000e+00j]
+ [1.07316277e-06+9.88099162e-07j]
+ [1.00000000e+00-9.88099162e-07j]]</code></pre>
+</div>
+</div>
+<p>Exactly, we have been able to simulate the whole evolution keeping the intermediate states to further study them. Neat.</p>
+<p>We can try to make it closer to the example we performed <a href="../qubits-code/">from scratch</a> to better understand how it works.</p>
+<div id="cell-init" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qutip <span class="im">import</span> basis, tensor</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>one <span class="op">=</span> basis(<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>zero <span class="op">=</span> basis(<span class="dv">2</span>,<span class="dv">0</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>one_zero <span class="op">=</span> tensor(one, zero) <span class="co"># |10&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>one_zero</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="init" class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>Quantum object: dims=[[2, 2], [1]], shape=(4, 1), type='ket', dtype=Dense
+Qobj data =
+[[0.]
+ [0.]
+ [1.]
+ [0.]]</code></pre>
+</div>
+</div>
+<div id="cell-cnot" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qutip.qip.operations <span class="im">import</span> cnot</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>cnot_matrix <span class="op">=</span> cnot().full()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>cnot_matrix</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cnot" class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>array([[1.+0.j, 0.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 1.+0.j, 0.+0.j, 0.+0.j],
+       [0.+0.j, 0.+0.j, 0.+0.j, 1.+0.j],
+       [0.+0.j, 0.+0.j, 1.+0.j, 0.+0.j]])</code></pre>
+</div>
+</div>
+<p>In fact, it allows us to do more than just the simple operations we envisioned. For example, we could generate the whole evolution over a period of time of the <span class="math inline">\(U\)</span> unitary generated for our Hamiltonian.</p>
+<div id="cell-hcnot" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qutip <span class="im">import</span> identity</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qutip.qip.operations <span class="im">import</span> hadamard_transform</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># hamiltonian</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>hamiltonian <span class="op">=</span>  cnot() <span class="op">*</span> tensor(hadamard_transform(<span class="dv">1</span>), identity(<span class="dv">2</span>))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>hamiltonian</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="hcnot" class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>Quantum object: dims=[[2, 2], [2, 2]], shape=(4, 4), type='oper', dtype=Dense, isherm=False
+Qobj data =
+[[ 0.70710678  0.          0.70710678  0.        ]
+ [ 0.          0.70710678  0.          0.70710678]
+ [ 0.          0.70710678  0.         -0.70710678]
+ [ 0.70710678  0.         -0.70710678  0.        ]]</code></pre>
+</div>
+</div>
+<div id="entanglement-operation" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scipy</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qutip <span class="im">import</span> Qobj, mesolve</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial state</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>init_state <span class="op">=</span> tensor(zero, zero) <span class="co"># |00&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># e^itH</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>u_generator <span class="op">=</span> Qobj(<span class="ot">1j</span> <span class="op">*</span> scipy.linalg.logm(hamiltonian.full()), dims<span class="op">=</span>[[<span class="dv">2</span>] <span class="op">*</span> <span class="dv">2</span>] <span class="op">*</span> <span class="dv">2</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Time range</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="fl">1.1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>evolution <span class="op">=</span> mesolve(u_generator, init_state, times)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="9d1d6590" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>evolution.states[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>Quantum object: dims=[[2, 2], [1]], shape=(4, 1), type='ket', dtype=Dense
+Qobj data =
+[[1.]
+ [0.]
+ [0.]
+ [0.]]</code></pre>
+</div>
+</div>
+<div id="96ffb31f" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qiskit.visualization <span class="im">import</span> array_to_latex</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>psi <span class="op">=</span> np.<span class="bu">round</span>(evolution.states[<span class="op">-</span><span class="dv">1</span>].full(), decimals <span class="op">=</span> <span class="dv">5</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>array_to_latex(array<span class="op">=</span>psi, prefix<span class="op">=</span><span class="st">'|</span><span class="ch">\\</span><span class="st">psi</span><span class="ch">\\</span><span class="st">rangle = '</span>, max_size<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="10">
+<p><span class="math display">\[
+|\psi\rangle =
+\begin{bmatrix}
+0.70711  \\
+0  \\
+0  \\
+0.70711  \\
+\end{bmatrix}
+\]</span></p>
+</div>
+</div>
+<p>Well, having a theoretical framework may be a good option for simulating and doing some local experimentation but that will reach soon limitations when trying to scale it up. Our classical device won’t be able to perform the whole system calculations and we might need to switch to actual quantum computers doing those. Therefore, we need to find a way to o so.</p>
+<p>This is why some manufacturers have invested time and effort on creating open-source frameworks to be adopted by the community (and position themselves). Companies such as <a href="https://qiskit.org/">IBM</a> or <a href="https://github.com/aws/amazon-braket-sdk-python">AWS</a> have leveraged their own version that also allows for these programs to be sent to an end device that will perform the set of operations.</p>
 
 
 

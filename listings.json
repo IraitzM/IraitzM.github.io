@@ -2,6 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/qubits-code/index.html",
+      "/posts/qutip-simulations/index.html",
+      "/posts/quantum-gates/index.html",
       "/posts/qubits/index.html",
       "/posts/welcome/welcome.html"
     ]

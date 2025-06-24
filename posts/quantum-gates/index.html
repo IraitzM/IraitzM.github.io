@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Iraitz Montalban">
-<meta name="dcterms.date" content="2025-01-01">
+<meta name="dcterms.date" content="2025-06-15">
 
-<title>Welcome – Iraitz’s blog</title>
+<title>Quantum gates – Iraitz’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -116,9 +145,10 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Welcome</h1>
+      <h1 class="title">Quantum gates</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">news</div>
+                <div class="quarto-category">qc</div>
+                <div class="quarto-category">code</div>
               </div>
                   </div>
   </div>
@@ -136,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">January 1, 2025</p>
+        <p class="date">June 15, 2025</p>
       </div>
     </div>
     
@@ -155,11 +185,392 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>Hi! My name is Iraitz Montalban and I love to mess around with technology.</p>
-<p>Actually I am using this blog to explore new-<em>ish</em> technology and explain things so other can benefit from it and meanwhile, I can get a better understanding on it. So, sometimes I will be talking about Python or Julia and the controversy around which one is best, will be exploring really basic stuff so I can refresh my memory, maybe review a paper or simply just play around with a new tool.</p>
-<p>I will just let my curiosity drive this thing wherever it takes me. Happy that you want to join me.</p>
+<p>Once we collected some qubits, we may want to do something with those. The natural way to evolve the state you may have in those qubits is by using some operator.</p>
+<p>In general we used <a href="https://www.youtube.com/watch?v=BusR0WQ_Gxo">Hamiltonians</a> for that, the description of how our state should move. We need to translate those dynamics to gates so that we can act upon our qubits.</p>
+<section id="quantum-gates" class="level1">
+<h1>Quantum gates</h1>
+<p>Now that we know how our states might look like</p>
+<p><span class="math display">\[
+|\phi\rangle = \left[
+\begin{array}{c}
+\alpha \\
+\beta
+\end{array}
+\right]
+\]</span></p>
+<p>would be relevant to understand how we can operate on them. Quantum computers, like classical computers, use logical gates to do their work. In this case, gates are operations that take our initial state and convert it into a different quantum state. Classical regime is poor in this sense as allowed changes are only between 0 and 1, but quantum states and qubits allow for much more information to be represented. That makes quantum logical gates also more complex and rich.</p>
+<p><span class="math display">\[
+U|\psi\rangle \rightarrow |\phi\rangle
+\]</span></p>
+<p>But in this case, these gates are specific to the quantum regime. We will find some similarities like in the case of the not gate and some particular cases like the Hadamard gate.</p>
+<p>A quantum gate is a frame to describe the quantum process taking a quantum state at time <span class="math inline">\(t\)</span> to the one at <span class="math inline">\(t+1\)</span>. For a closed quantum system, opposites to an open quantum system, the operator describes the evolution of the system can be described with <span class="math inline">\(e^{-i\int H dt/\hbar}\)</span>, which is a unitary operator. Furthermore, if we ignore the global phase of the quantum state, we can suppose all the quantum gates to be special unitary, i.e., the determinant of them is 1.</p>
+<section id="time-evolution-postulate" class="level2">
+<h2 class="anchored" data-anchor-id="time-evolution-postulate">Time Evolution Postulate</h2>
+<p>A pure state <span class="math inline">\(|\psi(t_0)\rangle\)</span> in a Hilbert space <span class="math inline">\(\mathcal{H}\)</span> evolves to another state <span class="math inline">\(|\psi(t)\rangle\)</span> is given by the time evolution operator <span class="math inline">\(U(t,t_0)\)</span></p>
+<p><span class="math display">\[
+|\psi(t)\rangle = U(t,t_0)|\psi(t_0)\rangle
+\]</span></p>
+<p>where <span class="math inline">\(U(t,t_0)\)</span> is the unitary transformation on the initial state of a closed system (with special case <span class="math inline">\(U(t_0,t_0)=I\)</span>). The time evolution is governed by the Schrödinger equation</p>
+<p><span class="math display">\[
+i\frac{d}{dt}|\psi(t)\rangle = \hat{H}|\psi(t)\rangle \rightarrow |\psi(t)\rangle = e^{-i\hat{H}t}|\psi(0)\rangle
+\]</span></p>
+<p>here <span class="math inline">\(\hat{H}\)</span> is a self adjoint operator also known as the Hamiltonian. <span class="math inline">\(\hat{H}\)</span> is an observable associated to the energy of the system and governs the dynamics of a given state relating to previously mentioned <span class="math inline">\(U\)</span> as <span class="math inline">\(U(t) = e^{-(i/\hbar)t\hat{H}}\)</span> following Stone’s theorem.</p>
+<p>In general, we can see this evolution operators as matrices applied to the same dimensional space of the quantum state it will be affected by. Let’s check some simple but useful examples we will be using for our computing tasks.</p>
+</section>
+<section id="the-hall-of-gates" class="level2">
+<h2 class="anchored" data-anchor-id="the-hall-of-gates">The Hall of Gates</h2>
+<p>As in classical computing, some key gates need to be known. The <span class="math inline">\(NAND\)</span> being an universal boolean logic gate as it can create all the other options required to render boolean logic, we should introduce some of the core gates when talking about quantum computing and the universality of those gates.</p>
+<section id="not-gate-x" class="level3">
+<h3 class="anchored" data-anchor-id="not-gate-x">NOT-gate (X)</h3>
+<p>The not gate (<span class="math inline">\(X\)</span> as the operator gate and <span class="math inline">\(\sigma_x\)</span> if expressed as a Pauli matrix) is one of the most basic concepts in computing. A classical operation that takes the bit in a position (0 or 1) to its opposite. But, <em>quantum not</em> extends that basic concept to the complexity of the quantum regime. The operator can be represented by a matrix like the following one:</p>
+<p><span class="math display">\[
+X = \left[
+\begin{array}{cc}
+0 &amp; 1 \\
+1 &amp; 0
+\end{array}
+\right]
+\]</span></p>
+<p>Then, the operation <span class="math inline">\(X|0\rangle = |1\rangle\)</span> can be validated by the simple multiplication of the matrix of the gate by the quantum state:</p>
+<p><span class="math display">\[
+X|0\rangle = \left[
+\begin{array}{cc}
+0 &amp; 1 \\
+1 &amp; 0
+\end{array}
+\right]\left[
+\begin{array}{c}
+1 \\
+0
+\end{array}
+\right] = \left[
+\begin{array}{c}
+0 \\
+1
+\end{array}
+\right] = |1\rangle
+\]</span></p>
+<p>But if we perform this very simple example with the generic case for <span class="math inline">\(|\psi\rangle\)</span></p>
+<p><span class="math display">\[
+X|\psi\rangle = X(\alpha|0\rangle + \beta |1\rangle) = \left[
+\begin{array}{cc}
+0 &amp; 1 \\
+1 &amp; 0
+\end{array}
+\right]\left[
+\begin{array}{c}
+\alpha \\
+\beta
+\end{array}
+\right] = \left[
+\begin{array}{c}
+\beta \\
+\alpha
+\end{array}
+\right] = \beta|0\rangle + \alpha |1\rangle = |\phi\rangle
+\]</span></p>
+<p>we have basically created a new state where its outcome probabilities have been shifted. Therefore, the <span class="math inline">\(X\)</span> operation can be used to shift the state ratter than perform a mere coin flipping. This gets more interesting looking at some specific gates like the Hadamard gate.</p>
+</section>
+<section id="hadamard-h" class="level3">
+<h3 class="anchored" data-anchor-id="hadamard-h">Hadamard (H)</h3>
+<p>Its matrix representation is</p>
+<p><span class="math display">\[
+H = \frac{1}{\sqrt{2}}\left[
+\begin{array}{cc}
+1 &amp; 1 \\
+1 &amp; -1
+\end{array}
+\right]
+\]</span></p>
+<p>And its effect…</p>
+<p><span class="math display">\[
+H|0\rangle = \frac{1}{\sqrt{2}}\left[
+\begin{array}{cc}
+1 &amp; 1 \\
+1 &amp; -1
+\end{array}
+\right]\left[
+\begin{array}{c}
+1 \\
+0
+\end{array}
+\right] = \frac{1}{\sqrt{2}}\left[
+\begin{array}{c}
+1 \\
+1
+\end{array}
+\right] = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle = |+\rangle
+\]</span></p>
+<p>basically it allows as to switch the axis of the bloch sphere and work on the superposition of the states on the <span class="math inline">\(Z\)</span> axis.</p>
+<figure class="figure">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="bloch2.png" class="img-fluid figure-img"></p>
+<figcaption>Bloch sphere</figcaption>
+</figure>
+</div>
+</figure>
+</section>
+</section>
+<section id="rotating-quantum-states" class="level2">
+<h2 class="anchored" data-anchor-id="rotating-quantum-states">Rotating quantum states</h2>
+<p>In essence, we will see that many gates what they offer us is simply rotations over the three main axes of the bloch sphere:</p>
+<p><span class="math display">\[
+R_x(\theta) = \left(
+    \begin{array}{cc}
+        \cos(\frac{\theta}{2}) &amp; -i\sin(\frac{\theta}{2}) \\
+        -i\sin(\frac{\theta}{2}) &amp; \cos(\frac{\theta}{2})
+    \end{array}
+    \right)
+\]</span></p>
+<p><span class="math display">\[
+R_y(\theta) = \left(
+    \begin{array}{cc}
+        \cos(\frac{\theta}{2}) &amp; -\sin(\frac{\theta}{2}) \\
+        \sin(\frac{\theta}{2}) &amp; \cos(\frac{\theta}{2})
+    \end{array}
+    \right)
+\]</span></p>
+<p><span class="math display">\[
+R_z(\theta) = \left(
+    \begin{array}{cc}
+        e^{-i\frac{\theta}{2}} &amp; 0 \\
+        0 &amp; e^{i\frac{\theta}{2}}
+    \end{array}
+    \right)
+\]</span></p>
+<p>making the general case <span class="math inline">\(R_M(\theta) = \exp^{(−i\theta M/2)}\)</span> where <span class="math inline">\(M \in \{X,Y,Z\};\)</span> being those three the Pauli gates the Pauli matrices <span class="math inline">\(\sigma_x, \sigma_y \text{ and } \sigma_z\)</span>. Actually the literature will quote a more generic case which will be given by the following gate operator</p>
+<p><span class="math display">\[
+U(\theta, \phi, \lambda) = \left( \begin{array}{cc}
+        \cos(\frac{\theta}{2}) &amp; -e^{i\lambda}\sin(\frac{\theta}{2})\\
+        e^{i\phi}\sin(\frac{\theta}{2}) &amp; e^{i(\phi+\lambda)}\cos(\frac{\theta}{2})
+    \end{array} \right)
+\]</span></p>
+<p>which maps to previous gates following the relationship <span class="math inline">\(U(\theta,0,0) = R_y(\theta)\)</span>, <span class="math inline">\(U(0,0,\lambda) = R_z(\lambda)\)</span> and <span class="math inline">\(U(\theta,-\frac{\pi}{2},\frac{\pi}{2}) = R_x(\theta)\)</span></p>
+</section>
+<section id="native-gates" class="level2">
+<h2 class="anchored" data-anchor-id="native-gates">Native gates</h2>
+<p>Quantum Computing as a mathematical framework that allows for all kind of gates to be designed but in many cases depending on the <em>manufacturer</em> of the device the set of gates we can employ may differ. We will need to find the combination of gates that will produce our desired action by using the gates each device is equipped with. Also called <em>native</em> gates.</p>
+<p>The native gate set is the gate set, one and two-qubit gates, that should be used to translate any gate from the mathematical framework to be translated or better expressed, <em>transpiled</em> to those.</p>
+Our circuit:
+<figure class="figure">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ghz.webp" class="img-fluid figure-img"></p>
+<figcaption>GHZ state</figcaption>
+</figure>
+</div>
+</figure>
+<p><span class="math inline">\(H\)</span> represents the Hadamard gate and the other two blue ones, the <em>Control-NOT</em> gate as the basis for generating entangled states.</p>
+<p>No device can implement natively at least to the best of our knowledge. Therefore, in order to apply that gate own needs to apply <em>native</em> gates that produce the same action or unitary matrix.</p>
+What can run on IBM devices:
+<figure class="figure">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="ghz-transpiled.webp" class="img-fluid figure-img"></p>
+<figcaption>GHZ transpiled</figcaption>
+</figure>
+</div>
+</figure>
+<p>We will see this in more detail later when we review hardware providers and their actual implementation.</p>
+</section>
+</section>
+<section id="multi-qubit-systems" class="level1">
+<h1>Multi-qubit systems</h1>
+<p>We have explored what a single qubit quantum state may look like and how to operate on it using quantum gates. Now, let’s scale up our system by adding more qubits. The composition of a quantum system with more than qubits will render a quantum state that is obtained after performing the tensorial product of its units.</p>
+<p><span class="math display">\[
+|0\rangle \otimes |0\rangle = \left[
+\begin{array}{c}
+1 \\
+0
+\end{array}
+\right] \otimes \left[
+\begin{array}{c}
+1 \\
+0
+\end{array}
+\right] = \left[
+\begin{array}{c}
+1 \times \left[
+\begin{array}{c}
+1 \\
+0
+\end{array}
+\right] \\
+0 \times \left[
+\begin{array}{c}
+1 \\
+0
+\end{array}
+\right]
+\end{array}
+\right] = \left[
+\begin{array}{c}
+1 \\
+0 \\
+0 \\
+0
+\end{array}
+\right] = |00\rangle
+\]</span></p>
+<p>Therefore, to operate with those systems our gates will need to scale up as well. Identity matrix (<span class="math inline">\(I\)</span>) will become our ally so that we can compose gates the operate in que same quantum system regime.</p>
+<p><span class="math display">\[
+I \otimes X = \left[
+\begin{array}{c}
+1 &amp; 0\\
+0 &amp; 1
+\end{array}
+\right] \otimes \left[
+\begin{array}{c}
+0 &amp; 1\\
+1 &amp; 0
+\end{array}
+\right] = \left[
+\begin{array}{cc}
+1 \times \left[\begin{array}{c}
+0 &amp; 1\\
+1 &amp; 0
+\end{array}\right] &amp;
+0 \times \left[\begin{array}{c}
+0 &amp; 1\\
+1 &amp; 0
+\end{array}\right] \\
+0 \times \left[\begin{array}{c}
+0 &amp; 1\\
+1 &amp; 0
+\end{array}\right] &amp;
+1 \times \left[\begin{array}{c}
+0 &amp; 1\\
+1 &amp; 0
+\end{array}\right]
+\end{array}
+\right] = \left[
+\begin{array}{cccc}
+0 &amp; 1 &amp; 0 &amp; 0 \\
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+\end{array}
+\right]
+\]</span></p>
+<p>Now we should just need to create the product between the quantum state and the operation to understand the effect of it.</p>
+<p><span class="math display">\[
+(I \otimes X)|00\rangle = \left[
+\begin{array}{cccc}
+0 &amp; 1 &amp; 0 &amp; 0 \\
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+\end{array}
+\right]\left[
+\begin{array}{c}
+1 \\
+0 \\
+0 \\
+0
+\end{array}
+\right] = \left[
+\begin{array}{c}
+0 \\
+1 \\
+0 \\
+0
+\end{array}
+\right] = |01\rangle
+\]</span></p>
+<section id="control-not-cnot" class="level2">
+<h2 class="anchored" data-anchor-id="control-not-cnot">Control-NOT (CNOT)</h2>
+<p>One interesting gate to be implemented in this regime is the control not or CNOT gate. This acts on the target qubit only if the first qubit is at <span class="math inline">\(|1\rangle\)</span> state. It does not require any classical measurement or observation, meaning the control qubit still holds its quantumness after gate operation. This is critical to the good functioning of the system otherwise any classical action would affect the quantum state making it purely classical.</p>
+<p><span class="math display">\[
+CNOT|00\rangle = \left[
+\begin{array}{cccc}
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+\end{array}
+\right]\left[
+\begin{array}{c}
+1 \\
+0 \\
+0 \\
+0
+\end{array}
+\right] = \left[
+\begin{array}{c}
+1 \\
+0 \\
+0 \\
+0
+\end{array}
+\right] = |00\rangle
+\]</span></p>
+<p><span class="math display">\[
+CNOT|10\rangle = \left[
+\begin{array}{cccc}
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+\end{array}
+\right]\left[
+\begin{array}{c}
+0 \\
+0 \\
+1 \\
+0
+\end{array}
+\right] = \left[
+\begin{array}{c}
+0 \\
+0 \\
+0 \\
+1
+\end{array}
+\right] = |11\rangle
+\]</span></p>
+<p>But what does there happen when it gets applied to a superposed state.</p>
+<p><span class="math display">\[
+CNOT|+0\rangle = \left[
+\begin{array}{cccc}
+1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+\end{array}
+\right]\left[
+\begin{array}{c}
+\frac{1}{\sqrt{2}} \\
+0 \\
+\frac{1}{\sqrt{2}} \\
+0
+\end{array}
+\right] = \left[
+\begin{array}{c}
+\frac{1}{\sqrt{2}} \\
+0 \\
+0 \\
+\frac{1}{\sqrt{2}}
+\end{array}
+\right] = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)
+\]</span></p>
+<p>Quite interesting. Have you tried decomposing this state into the tensor product of the quantum state of the two qubits? Fine, because it is not possible. This is what it is called an <strong>entangled</strong> state. One particular benefit of this states is that by measuring only one of those qubits we know the value of the second one without any need for measurement.</p>
+</section>
+<section id="entanglement" class="level2">
+<h2 class="anchored" data-anchor-id="entanglement">Entanglement</h2>
+<p>Entangled states are critical for some of the quantum algortihms allowing us to outperform (theoretically at least) classical computing. The most basic (and probably best known) entangled states are the Bell states or EPR paris.</p>
+<p><span class="math display">\[
+|\Phi^{+}\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \quad |\Phi^{-}\rangle = \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle)
+\]</span></p>
+<p><span class="math display">\[
+|\Psi^{+}\rangle = \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle) \quad |\Psi^{-}\rangle = \frac{1}{\sqrt{2}}(|10\rangle - |10\rangle)
+\]</span></p>
+<p>Entangled states are behind some of the key algorithms in communication protocols such as Quantum Teleportation or Superdense coding or behind the post-quantum cryptography proposals, like the Quantum Key Distribution. But they are also relevant for computations as we will see in the following sections.</p>
+<p>I know, too much theory. Let’s try to execute some <a href="../qubits-code/">code</a> to make it more clear.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
