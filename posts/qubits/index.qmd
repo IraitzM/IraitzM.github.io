@@ -110,7 +110,7 @@ And here we found one of the first strange things about qubits in comparison to 
 
 ## Measurement
 
-Measuring quantum states is a necessary condition to extract information out of it, but by doing so we affect the system due to the collapse of the wave function. **Observables** (self-adjoin operators) are used to project the measurement of a given quantum state to one of its eigenvalues by using the closeness between quantum state and eigenvectors of the observable being used. The eigenvectors of the observable form an orthonormal basis for the Hilbert space, therefore each measure corresponds to a mapping to the eigenvectors comprising the basis.
+Measuring quantum states is a necessary condition to extract information out of it, but by doing so we affect the system due to the collapse of the wave function. **Observables** (self-adjoint operators) are used to project the measurement of a given quantum state to one of its eigenvalues by using the closeness between quantum state and eigenvectors of the observable being used. The eigenvectors of the observable form an orthonormal basis for the Hilbert space, therefore each measure corresponds to a mapping to the eigenvectors comprising the basis.
 
 We will see that a common observable used is the Pauli $\sigma_z$ matrix
 
@@ -171,6 +171,6 @@ $$
 |\phi\rangle = \cos (\theta/2) |0\rangle + e^{i\phi} \sin (\theta/2)|1\rangle
 $$
 
-which represents the sphere coordinates on the surface of the bloch sphere. It is more evident in this case that rendering simple bits will actually remove most of the information contained in the states when operating with them in the quantum regime.
+which represents the sphere coordinates on the surface of the _bloch sphere_. It is more evident in this case that rendering simple bits will actually remove most of the information contained in the states when operating with them in the quantum regime.
 
-I think is enough for today but keep an eye, I will continue some of this explanations.
+I think is enough for today but keep an eye, I will continue some of these explanations.
