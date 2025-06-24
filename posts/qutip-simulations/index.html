@@ -345,7 +345,7 @@ Qobj data =
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>times <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="fl">1.1</span>, <span class="fl">0.1</span>)</span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>evolution <span class="op">=</span> mesolve(u_generator, init_state, times)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="9d1d6590" class="cell" data-execution_count="9">
+<div id="fadc450c" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>evolution.states[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>Quantum object: dims=[[2, 2], [1]], shape=(4, 1), type='ket', dtype=Dense
@@ -356,7 +356,7 @@ Qobj data =
  [0.]]</code></pre>
 </div>
 </div>
-<div id="96ffb31f" class="cell" data-execution_count="10">
+<div id="a2efc08c" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qiskit.visualization <span class="im">import</span> array_to_latex</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>psi <span class="op">=</span> np.<span class="bu">round</span>(evolution.states[<span class="op">-</span><span class="dv">1</span>].full(), decimals <span class="op">=</span> <span class="dv">5</span>)</span>
