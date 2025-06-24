@@ -23,7 +23,7 @@ The main idea behind quantum computing is that, instead of working at a macrosco
 
 This is part of the recent history of the field and future roadmap.
 <figure markdown>
-  ![timeline.png](timeline.png)
+  ![QC timeline](timeline.png)
 </figure>
 
 The main concept leveraged by quantum computers is the ability to act over quantum states. A quantum state is no other thing than a mathematical description of the probability distribution for the potential outcome after measurement upon a system. It sounds tricky but in general we could think of it as a normed vector. Let's try with the most simple example, a coin. 
