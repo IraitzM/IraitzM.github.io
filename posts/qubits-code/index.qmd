@@ -1,0 +1,141 @@
+---
+title: "Coding my own simulator"
+author: "Iraitz Montalban"
+date: "2025-06-24"
+categories: [qc, code]
+#image: "qc-bg.png"
+
+format:
+  html:
+    code-fold: false
+jupyter: python3
+---
+
+After all the concepts we have seen before like [qubits](../qubits/) and [gates](../quantum-gates/) we should see them in action. See how some of the basis look, like:
+
+* Basis $|0\rangle$ and $|1\rangle$ state.
+* Tensor product operations
+* And the universal set of gates ($R_x(\theta), R_x(\theta), R_x(\theta), P(\phi)$ phase shift gate and $CNOT$ may suffice).
+
+We can then create our own set of functions and objects to simulate those computations. Let go.
+
+### From scratch
+
+We would easily create basic vector structures for our _quantum framework_. The minimum unit is the qubit and in order to frame the potential quantum states it may hold we would need to create the computational basis set $\{|0\rangle, |1\rangle \}$.
+
+
+```{python}
+#| label: zero-state
+
+import numpy as np
+from qiskit.visualization import array_to_latex
+
+zero = [[1], [0]]
+one = [[0], [1]]
+
+array_to_latex(array=zero, prefix='|0\\rangle = ', max_size=(10,10))
+```
+
+
+```{python}
+#| label: one-state
+
+array_to_latex(array=one, prefix='|1\\rangle = ', max_size=(10,10))
+```
+
+Now lets try with some gates.
+
+$$
+X = \left[
+\begin{array}{cc}
+0 & 1 \\
+1 & 0
+\end{array}
+\right] \quad 
+H = \frac{1}{\sqrt{2}}\left[
+\begin{array}{cc}
+1 & 1 \\
+1 & -1
+\end{array}
+\right]
+$$
+
+```{python}
+#| label: not-gate
+
+X = [[0,1],[1,0]]
+
+array_to_latex(array=X, prefix='X = ', max_size=(10,10))
+```
+
+```{python}
+#| label: hadamard-gate
+
+hadamard = np.dot((1/(np.sqrt(2))), [[1, 1], [1, -1]])
+
+array_to_latex(array=hadamard, prefix='H = ', max_size=(10,10))
+```
+
+Well, it is already taking shape. We can test if the outcome matches our expectations.
+
+```{python}
+#| label: superposition
+
+superposition = np.dot(hadamard, zero)
+
+array_to_latex(array=superposition, prefix='H|0\\rangle = |+\\rangle = ', max_size=(10,10))
+```
+
+```{python}
+#| label: not-operation
+
+one = np.dot(X, zero)
+
+array_to_latex(array=one, prefix='X|0\\rangle = |1\\rangle = ', max_size=(10,10))
+```
+
+We can scale it to a couple of qubits to see what we get. Let's try to create on of the bell states we saw during class.
+
+$$
+|\Phi^{+}\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle) \quad |\Phi^{-}\rangle = \frac{1}{\sqrt{2}}(|00\rangle - |11\rangle) \\
+|\Psi^{+}\rangle = \frac{1}{\sqrt{2}}(|01\rangle + |10\rangle) \quad |\Psi^{-}\rangle = \frac{1}{\sqrt{2}}(|10\rangle - |10\rangle)
+$$
+
+We will need the CNOT gate for this.
+
+```{python}
+#| label: cnot-operation
+CNOT = [[1,0,0,0],[0,1,0,0],[0,0,0,1],[0,0,1,0]]
+
+array_to_latex(array=CNOT, prefix='CNOT = ', max_size=(10,10))
+```
+
+With this we will create a two qubit system, apply the Hadamard gate to the first one and the CNOT gate with the control over the first qubit as well.
+
+```{python}
+#| label: entanglement-operation
+
+# Initial state
+init_state = np.kron(zero, zero)
+
+# (I tensor Hadamard)
+HI = np.kron(hadamard, np.eye(2))
+```
+
+With that we can perform the full operation.
+
+$$
+CNOT (I\otimes H)|00\rangle = |\Phi^{+}\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle
+$$
+
+```{python}
+#| label: entangled-state
+psi_1 = np.dot(HI, init_state)
+psi = np.dot(CNOT, psi_1)
+
+array_to_latex(array=psi, prefix='|\\psi\\rangle = ', max_size=(10,10))
+```
+
+There you go. This is our entangled 2-qubit state. Building the whole formalism from scratch might be tedious, but it helps us understand every detail of it.
+
+Of course, in order to continue forward, we will take advantage of the collective effort and use some existing tools like [QuTip](../qutip) to ease our way into quantum computing.

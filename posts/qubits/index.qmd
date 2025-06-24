@@ -1,7 +1,7 @@
 ---
 title: "Getting started with qubits"
 author: "Iraitz Montalban"
-date: "2025-06-24"
+date: "2025-06-03"
 categories: [qc, code]
 image: "qc-bg.png"
 
@@ -42,23 +42,21 @@ $$
 being this the minimum representation of a quantum state: a unit norm vector $\in \mathbb{C}^2$ whose physical realization is known as the **qubit**.
 
 This means that $|\alpha|^2+|\beta|^2 = 1$ as these are the two outcome probabilities that should add up to one. That way we know any potential outcome must be comprised by the basis we would be using to identify our basic states. This is relevant as when it comes to quantum computers, our minimal unit will be expressed on its computational basis:
-```{python}
-#| label: zero-state
-
-import numpy as np
-from qiskit.visualization import array_to_latex
-
-zero = [[1], [0]]
-one = [[0], [1]]
-
-array_to_latex(array=zero, prefix='|0\\rangle = ', max_size=(10,10))
-```
-
-```{python}
-#| label: one-state
-
-array_to_latex(array=one, prefix='|1\\rangle = ', max_size=(10,10))
-```
+$$
+|0\rangle = \left[
+\begin{array}{c}
+1 \\
+0
+\end{array}
+\right]
+\quad
+|1\rangle = \left[
+\begin{array}{c}
+0 \\
+1
+\end{array}
+\right]
+$$
 
 Therefore previous state can be characterized in our qubit unit as:
 
@@ -149,7 +147,7 @@ $$
 \beta |1\rangle.
 $$
 
-The state is a superposed state, no questions on that, but our ability to perceive it is limited by the measurement procedure itself. We need to project our quantum state into one of the two potential states we can detect ($|0\rangle$ or $|1\rangle$). Sadly, when measuring only classical bits can be obtained (0 or 1) so no probability amplitude, no phase... information gets lost in the measurement process.
+The state is a superposed, no question on that, but our ability to perceive it is limited by the measurement procedure itself. We need to project our quantum state into one of the two potential states we can obtain ($|0\rangle$ or $|1\rangle$). Sadly, when measuring only classical bits can be obtained (0 or 1) into our conventional machines, so no probability amplitude, no phase... information gets lost in the measurement process.
 
 The _probability histogram_ is created after a sequence of quantum state creations and measurements we often call **SHOTS**.
 
@@ -173,4 +171,4 @@ $$
 
 which represents the sphere coordinates on the surface of the _bloch sphere_. It is more evident in this case that rendering simple bits will actually remove most of the information contained in the states when operating with them in the quantum regime.
 
-I think is enough for today but keep an eye, I will continue some of these explanations.
+I think is enough for today but keep an eye, I will continue some of these explanations covering the concept of [gates](../quantum-gates/).
