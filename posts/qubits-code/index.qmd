@@ -138,4 +138,4 @@ array_to_latex(array=psi, prefix='|\\psi\\rangle = ', max_size=(10,10))
 
 There you go. This is our entangled 2-qubit state. Building the whole formalism from scratch might be tedious, but it helps us understand every detail of it.
 
-Of course, in order to continue forward, we will take advantage of the collective effort and use some existing tools like [QuTip](../qutip) to ease our way into quantum computing.
+Of course, in order to continue forward, we will take advantage of the collective effort and use some existing tools like [QuTip](../qutip-simulations) to ease our way into quantum computing.
