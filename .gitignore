@@ -1,7 +1,0 @@
-# Virtual env
-.venv
-
-# Quarto
-/.quarto/
-/_site/
-/_freeze/
