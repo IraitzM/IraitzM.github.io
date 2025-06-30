@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://IraitzM.github.io/posts/welcome/welcome.html</loc>
-    <lastmod>2025-06-25T09:23:51.676Z</lastmod>
+    <loc>https://IraitzM.github.io/about.html</loc>
+    <lastmod>2025-06-30T07:31:05.717Z</lastmod>
   </url>
   <url>
-    <loc>https://IraitzM.github.io/about.html</loc>
-    <lastmod>2025-06-25T09:23:51.613Z</lastmod>
+    <loc>https://IraitzM.github.io/posts/quarto/post.html</loc>
+    <lastmod>2025-06-30T07:31:05.779Z</lastmod>
+  </url>
+  <url>
+    <loc>https://IraitzM.github.io/posts/welcome/welcome.html</loc>
+    <lastmod>2025-06-30T07:31:05.780Z</lastmod>
   </url>
   <url>
     <loc>https://IraitzM.github.io/index.html</loc>
-    <lastmod>2025-06-25T09:23:51.676Z</lastmod>
+    <lastmod>2025-06-30T07:31:05.779Z</lastmod>
   </url>
 </urlset>

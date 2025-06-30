@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "posts/welcome/welcome.html",
-    "href": "posts/welcome/welcome.html",
-    "title": "Welcome",
-    "section": "",
-    "text": "Hi! My name is Iraitz Montalbán and I love to mess around with technology.\nActually I am using this blog to explore new-ish technology and explain things so other can benefit from it and meanwhile, I can get a better understanding on it. So, sometimes I will be talking about Python or Julia and the controversy around which one is best, will be exploring really basic stuff so I can refresh my memory, maybe review a paper or simply just play around with a new tool.\nI will just let my curiosity drive this thing wherever it takes me. Happy that you want to join me."
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -14,10 +7,45 @@
     "text": "Hi! This is Iraitz, data and computing enthusiast. That is why you will see plenty things about Data Engineering, Scientific Computing and Machine Learning around here."
   },
   {
+    "objectID": "posts/quarto/post.html",
+    "href": "posts/quarto/post.html",
+    "title": "Documentation and sites",
+    "section": "",
+    "text": "Documentation sites are probably one of the most valuable resources a developer or researcher can have. A good documentation site is priceless. I have been developing documentation sites with the usual suspects for a while:\nSometimes hosted on ReadTheDocs which makes it really easy to deploy, in other cases hosted in Github Pages. During the last month I have been exploring Quarto which was one my tech to review list for a while. Really cool project indeed. In fact, this blog is all done using it."
+  },
+  {
+    "objectID": "posts/quarto/post.html#markdown-first-level-citizen",
+    "href": "posts/quarto/post.html#markdown-first-level-citizen",
+    "title": "Documentation and sites",
+    "section": "Markdown, first level citizen",
+    "text": "Markdown, first level citizen\nIt is challenging to build sites when you come from the data domain. No idea about CSS or Javascript but you want your site to look cool and engaging. Well, Quarto does this using pure Markdown like many others. It has its own extension .qmd but it also allows for Jupyter Notebooks or pure MD files to be rendered. This is often a challenge in other frameworks as you need to import extensions to do that.\nQuarto supports additional formats by default."
+  },
+  {
+    "objectID": "posts/quarto/post.html#and-code",
+    "href": "posts/quarto/post.html#and-code",
+    "title": "Documentation and sites",
+    "section": "And code?",
+    "text": "And code?\nWell, it supports the infamous trifecta of languages that gave name to Jupyter (Julia, Python and R) but also Observable plots.\n\n\n\nObservable example\n\n\nJust by simply adding {python} to your code blocks, if you are using .qmd extension, it will execute and render the page for you."
+  },
+  {
+    "objectID": "posts/quarto/post.html#what-about-pdfs",
+    "href": "posts/quarto/post.html#what-about-pdfs",
+    "title": "Documentation and sites",
+    "section": "What about PDFs?",
+    "text": "What about PDFs?\nSometimes you need to render your site to a PDF (I know, I know) and things get tricky when PDF is involved. I used to use Sphinx when I knew there was a chance for that happening but know, Quarto has my back having the ease of use of MKDocs.\n\n\n\nFormat rendering\n\n\nYou can have a look at Quarto’s guide, really easy to understand and start working and full of examples for articles, books or blogs such as this one to be created."
+  },
+  {
+    "objectID": "posts/welcome/welcome.html",
+    "href": "posts/welcome/welcome.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "Hi! My name is Iraitz Montalbán and I love to mess around with technology.\nActually I am using this blog to explore new-ish technology and explain things so other can benefit from it and meanwhile, I can get a better understanding on it. So, sometimes I will be talking about Python or Julia and the controversy around which one is best, will be exploring really basic stuff so I can refresh my memory, maybe review a paper or simply just play around with a new tool.\nI will just let my curiosity drive this thing wherever it takes me. Happy that you want to join me."
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Iraitz’s blog",
     "section": "",
-    "text": "Welcome\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\nIraitz Montalban\n\n\n\n\n\nNo matching items"
+    "text": "Documentation and sites\n\n\n\ndocs\n\n\n\n\n\n\n\n\n\nJun 30, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\nIraitz Montalban\n\n\n\n\n\nNo matching items"
   }
 ]
