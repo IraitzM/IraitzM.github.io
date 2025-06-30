@@ -1,0 +1,35 @@
+---
+title: "Documentation and sites"
+author: "Iraitz Montalban"
+date: "2025-06-30"
+categories: [docs]
+---
+
+Documentation sites are probably one of the most valuable resources a developer or researcher can have. A good documentation site is priceless. I have been developing documentation sites with the usual suspects for a while:
+
+* [Sphinx](https://www.sphinx-doc.org/en/master/)
+* [Material for MKDocs](https://squidfunk.github.io/mkdocs-material/)
+
+Sometimes hosted on [ReadTheDocs](https://about.readthedocs.com/) which makes it really easy to deploy, in other cases hosted in Github Pages. During the last month I have been exploring [Quarto](https://quarto.org/) which was one my _tech to review_ list for a while. Really cool project indeed. In fact, this blog is all done using it.
+
+## Markdown, first level citizen
+
+It is challenging to build sites when you come from the data domain. No idea about CSS or Javascript but you want your site to look cool and engaging. Well, Quarto does this using pure Markdown like many others. It has its own extension `.qmd` but it also allows for Jupyter Notebooks or pure MD files to be rendered. This is often a challenge in other frameworks as you need to import extensions to do that.
+
+Quarto supports additional formats by default.
+
+## And code?
+
+Well, it supports the infamous trifecta of languages that gave name to Jupyter (Julia, Python and R) but also [Observable plots](https://observablehq.com/).
+
+![Observable example](https://quarto.org/images/hello-observable.png){width=50%}
+
+Just by simply adding `{python}` to your code blocks, if you are using `.qmd` extension, it will execute and render the page for you. 
+
+## What about PDFs?
+
+Sometimes you need to render your site to a PDF (I know, I know) and things get tricky when PDF is involved. I used to use Sphinx when I knew there was a chance for that happening but know, Quarto has my back having the ease of use of MKDocs.
+
+![Format rendering](https://quarto.org/docs/get-started/hello/images/qmd-how-it-works.png)
+
+You can have a look at Quarto's guide, really easy to understand and start working and full of examples for articles, books or blogs such as this one to be created.
