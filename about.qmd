@@ -14,3 +14,5 @@ about:
 ---
 
 Hi! This is Iraitz, data and computing enthusiast. That is why you will see plenty things about Data Engineering, Scientific Computing and Machine Learning around here.
+
+If you would like to contact or chat, feel free to use my zcal at [iraitz.info](http://iraitz.info)

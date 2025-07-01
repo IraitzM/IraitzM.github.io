@@ -1,8 +1,10 @@
 ---
 title: "Documentation and sites"
 author: "Iraitz Montalban"
-date: "2025-06-30"
-categories: [docs]
+date: 2025-06-26
+date-modified: 2025-07-01
+categories: [docs, python]
+image: "quarto.png"
 ---
 
 Documentation sites are probably one of the most valuable resources a developer or researcher can have. A good documentation site is priceless. I have been developing documentation sites with the usual suspects for a while:
@@ -14,9 +16,9 @@ Sometimes hosted on [ReadTheDocs](https://about.readthedocs.com/) which makes it
 
 ## Markdown, first level citizen
 
-It is challenging to build sites when you come from the data domain. No idea about CSS or Javascript but you want your site to look cool and engaging. Well, Quarto does this using pure Markdown like many others. It has its own extension `.qmd` but it also allows for Jupyter Notebooks or pure MD files to be rendered. This is often a challenge in other frameworks as you need to import extensions to do that.
+It is challenging to build sites when you come from the data domain. No idea about CSS or Javascript but you want your site to look cool and engaging. Well, Quarto does this using pure Markdown like many others. It has its own extension `.qmd` but it also allows for Jupyter Notebooks or pure MD files to be rendered. This is often a challenge in other frameworks as you need to install extensions to do that (ex [Markdown on Sphinx](https://www.sphinx-doc.org/en/master/usage/markdown.html)).
 
-Quarto supports additional formats by default.
+Quarto supports those formats by default.
 
 ## And code?
 
@@ -26,10 +28,22 @@ Well, it supports the infamous trifecta of languages that gave name to Jupyter (
 
 Just by simply adding `{python}` to your code blocks, if you are using `.qmd` extension, it will execute and render the page for you. 
 
+```{python}
+# | echo: true
+
+print("Hi from Python!")
+```
+
+So you can simply install it and get you project running... Quarto will ask you about the type of project you would like to run...
+
+![Quarto create](project.png)
+
+So essentially with that you can create a plethora of content formats... checkout the [gallery](https://quarto.org/docs/gallery/).
+
 ## What about PDFs?
 
 Sometimes you need to render your site to a PDF (I know, I know) and things get tricky when PDF is involved. I used to use Sphinx when I knew there was a chance for that happening but know, Quarto has my back having the ease of use of MKDocs.
 
 ![Format rendering](https://quarto.org/docs/get-started/hello/images/qmd-how-it-works.png)
 
-You can have a look at Quarto's guide, really easy to understand and start working and full of examples for articles, books or blogs such as this one to be created.
+You can have a look at Quarto's guide, really easy to understand and start working and full of examples for articles, books or blogs such as this one to be created. Give it a chance.

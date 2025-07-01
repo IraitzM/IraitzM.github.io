@@ -3,6 +3,7 @@ title: "Welcome"
 author: "Iraitz Montalban"
 date: "2025-06-25"
 categories: [news]
+image: "hi.png"
 ---
 
 Hi! My name is Iraitz Montalbán and I love to mess around with technology.
