@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Iraitz Montalban">
-<meta name="dcterms.date" content="2025-06-26">
+<meta name="dcterms.date" content="2025-07-01">
 
-<title>Documentation and sites – Iraitz’s blog</title>
+<title>Python project management – Iraitz’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -151,9 +151,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Documentation and sites</h1>
+      <h1 class="title">Python project management</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">docs</div>
+                <div class="quarto-category">dependencies</div>
                 <div class="quarto-category">python</div>
               </div>
                   </div>
@@ -172,16 +172,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">June 26, 2025</p>
+        <p class="date">July 1, 2025</p>
       </div>
     </div>
     
-      <div>
-      <div class="quarto-title-meta-heading">Modified</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date-modified">July 1, 2025</p>
-      </div>
-    </div>
       
     </div>
     
@@ -197,52 +191,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>Documentation sites are probably one of the most valuable resources a developer or researcher can have. A good documentation site is priceless. I have been developing documentation sites with the usual suspects for a while:</p>
-<ul>
-<li><a href="https://www.sphinx-doc.org/en/master/">Sphinx</a></li>
-<li><a href="https://squidfunk.github.io/mkdocs-material/">Material for MKDocs</a></li>
-</ul>
-<p>Sometimes hosted on <a href="https://about.readthedocs.com/">ReadTheDocs</a> which makes it really easy to deploy, in other cases hosted in Github Pages. During the last month I have been exploring <a href="https://quarto.org/">Quarto</a> which was one my <em>tech to review</em> list for a while. Really cool project indeed. In fact, this blog is all done using it.</p>
-<section id="markdown-first-level-citizen" class="level2">
-<h2 class="anchored" data-anchor-id="markdown-first-level-citizen">Markdown, first level citizen</h2>
-<p>It is challenging to build sites when you come from the data domain. No idea about CSS or Javascript but you want your site to look cool and engaging. Well, Quarto does this using pure Markdown like many others. It has its own extension <code>.qmd</code> but it also allows for Jupyter Notebooks or pure MD files to be rendered. This is often a challenge in other frameworks as you need to install extensions to do that (ex <a href="https://www.sphinx-doc.org/en/master/usage/markdown.html">Markdown on Sphinx</a>).</p>
-<p>Quarto supports those formats by default.</p>
+<p>There are som many <em>requirements.txt</em> files out there. Oh man. I do struggle every time somebody asks for the requirements file. There are so many options much better than that.</p>
+<section id="the-old-one" class="level2">
+<h2 class="anchored" data-anchor-id="the-old-one">The <em>old</em> one</h2>
+<p><a href="https://python-poetry.org/">Poetry</a> is probably the most known one, in particular when it comes to software development. It set the standard on how we should move forward managing python projects.</p>
 </section>
-<section id="and-code" class="level2">
-<h2 class="anchored" data-anchor-id="and-code">And code?</h2>
-<p>Well, it supports the infamous trifecta of languages that gave name to Jupyter (Julia, Python and R) but also <a href="https://observablehq.com/">Observable plots</a>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://quarto.org/images/hello-observable.png" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>Observable example</figcaption>
-</figure>
-</div>
-<p>Just by simply adding <code>{python}</code> to your code blocks, if you are using <code>.qmd</code> extension, it will execute and render the page for you.</p>
-<div id="8eb15ef8" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hi from Python!"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Hi from Python!</code></pre>
-</div>
-</div>
-<p>So you can simply install it and get you project running… Quarto will ask you about the type of project you would like to run…</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="project.png" class="img-fluid figure-img"></p>
-<figcaption>Quarto create</figcaption>
-</figure>
-</div>
-<p>So essentially with that you can create a plethora of content formats… checkout the <a href="https://quarto.org/docs/gallery/">gallery</a>.</p>
+<section id="my-main-option" class="level2">
+<h2 class="anchored" data-anchor-id="my-main-option">My main option</h2>
+<p>I have been using <a href="https://pdm-project.org/en/latest/">PDM</a> for a while now. It creates a basic structure and you don’t need to worry about the development dependencies. They will be installed by default while keeping everything in order on your TOML file.</p>
 </section>
-<section id="what-about-pdfs" class="level2">
-<h2 class="anchored" data-anchor-id="what-about-pdfs">What about PDFs?</h2>
-<p>Sometimes you need to render your site to a PDF (I know, I know) and things get tricky when PDF is involved. I used to use Sphinx when I knew there was a chance for that happening but know, Quarto has my back having the ease of use of MKDocs.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://quarto.org/docs/get-started/hello/images/qmd-how-it-works.png" class="img-fluid figure-img"></p>
-<figcaption>Format rendering</figcaption>
-</figure>
-</div>
-<p>You can have a look at Quarto’s guide, really easy to understand and start working and full of examples for articles, books or blogs such as this one to be created. Give it a chance.</p>
+<section id="the-new-kid-on-the-block" class="level2">
+<h2 class="anchored" data-anchor-id="the-new-kid-on-the-block">the <em>new kid on the block</em></h2>
+<p><a href="https://astral.sh/">Astral</a> has some cool projects going on. Ruff, is the go to linter and code formatter for many nowadays. It uses Rust under the hood which makes it really performant. They also had <a href="https://rye.astral.sh/">rye</a> package manager for a while but its successor, <a href="https://docs.astral.sh/uv/">uv</a>, has become the defacto project management tool even though there are some thinks I don’t fully like.</p>
+<p>The mean feature is… well, it is the Usain Bolt of the package installers. Soooo fast. Solves the dependency tree blazing fast and keeps the local environment up to date.</p>
+<p>Two things that make me still prefer PDM over uv is the project initialization. PDM creates a basic folder structure that works for me</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">project</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">-</span> src/</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">-</span> test/</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">-</span> pyproject.toml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>while uv creates a <em>hello.py</em> file that I have to delete all the time.</p>
+<p>Probably the most annoying thing about uv is when you need to add all extras to you local development environment. You need to run</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync <span class="at">--all-extras</span> <span class="at">--dev</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>it is a minor thing, but you need to remember it.</p>
+<p>More on this? There is a <a href="https://alpopkes.com/posts/python/packaging_tools/">beautiful entry</a> by Anna-Lena Popkes on her blog definitely worth checking.</p>
 
 
 </section>
