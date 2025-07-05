@@ -1,8 +1,12 @@
 project:
   type: website
 
+execute:
+  freeze: auto
+
 website:
   title: "Iraitz's blog"
+  google-analytics: "G-MXHDHE1HP5"
   navbar:
     right:
       - about.qmd
@@ -13,8 +17,18 @@ website:
 
 format:
   html:
+    include-in-header: static/code_head.html
     theme: cosmo
     css: styles.css
 
+# Some SEO
+metadata:
+  lang: en
+  author: "Iraitz Montalbán"
+  twitter-card: false
+  open-graph: true
+
+resources:
+  - robots.txt
 
 
