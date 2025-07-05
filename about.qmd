@@ -10,9 +10,40 @@ about:
     - icon: github
       text: Github
       href: https://github.com/IraitzM
-
+css: styles.css
 ---
 
 Hi! This is Iraitz, data and computing enthusiast. That is why you will see plenty things about Data Engineering, Scientific Computing and Machine Learning around here.
+
+```{mermaid}
+%%| fig-responsive: true
+timeline
+   
+    section Early Career (2008-2013)
+        2008-10 : Computer Science (UPV/EHU)
+                : NLP at Ixa taldea (UPV/EHU)
+                : AI Researcher (Fatronik-Tecnalia)
+        2010-13 : Master Mathematical Modeling (UPV/EHU)
+                : Lead Powerline Solutions Engineer (Arteche)
+    
+    section Data Science Era (2014-2020)
+        2014-16 : Data Scientist (Panda Security)
+        2016-21 : Global Data Architect (Iberdrola)
+        2017-23 : Lecturer on Big Data & Business Intelligence (Deusto)
+                : Lecturer on Big Data & Business Intelligence (UOC)
+                : Lecturer (European Data Incubator)
+        2019-20 : Master Data Protection (UNIR)
+    
+    section Leadership & Innovation (2021-2024)
+        2021-22 : Innovation Lead (SDG Group)
+                : Master Quantum Computing (UPM)
+        2022-23 : Lead Product Developer (Kipu Quantum)
+    
+    section QML and HPC (2024-Present)
+        2024-... : PhD High Performance Computing (U. Oviedo)
+                 : Fractional CTO - Banking Transformation
+                 : QML Researcher & CTO (Falcondale)
+                 : Data Science Lecturer (The Bridge School)
+```
 
 If you would like to contact or chat, feel free to use my zcal at [iraitz.info](http://iraitz.info)

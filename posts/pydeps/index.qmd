@@ -1,7 +1,7 @@
 ---
 title: "Python project management"
 author: "Iraitz Montalban"
-date: today
+date: 07-03-2025
 categories: [dependencies, python]
 image: "pydeps.png"
 ---

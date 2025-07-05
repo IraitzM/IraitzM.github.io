@@ -1,8 +1,9 @@
 ---
 title: "Task automation"
 author: "Iraitz Montalban"
-date: today
+date: 07-05-2025
 categories: [tasks, python]
+image: tasks.png
 ---
 
 Keeping track of the tasks to run and remembering commands might be challenging, at least it is for me. That is why many repositories already count with task running files, so that it is also for colleagues to remember the standard that was set by the group.
