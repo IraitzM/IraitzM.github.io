@@ -6,7 +6,6 @@ execute:
 
 website:
   title: "Iraitz's blog"
-  google-analytics: "G-MXHDHE1HP5"
   navbar:
     right:
       - about.qmd
@@ -18,6 +17,7 @@ website:
 format:
   html:
     include-in-header: static/code_head.html
+    include-before-body: static/code_body.html
     theme: cosmo
     css: styles.css
 
