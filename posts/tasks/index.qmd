@@ -1,0 +1,315 @@
+---
+title: "Task automation"
+author: "Iraitz Montalban"
+date: today
+categories: [tasks, python]
+---
+
+Keeping track of the tasks to run and remembering commands might be challenging, at least it is for me. That is why many repositories already count with task running files, so that it is also for colleagues to remember the standard that was set by the group.
+
+## Makefile
+
+Makefiles are the traditional way of handling such tasks. It comes from the Unix world and the first appearance of the [`make`](https://en.wikipedia.org/wiki/Make_(software)) command-line interface tool in 1976 making it widely supported. A `Makefile` allows you to define tasks (called "targets") and their dependencies, making it easy to automate repetitive commands. For example, the traditional way of setting the command for compiling a C/C` program would look like:
+
+```sh
+CC = gcc
+CFLAGS = -Wall -g
+SRC = main.c utils.c
+OBJ = $(SRC:.c=.o)
+TARGET = myprogram
+
+$(TARGET): $(OBJ)
+    $(CC) $(CFLAGS) -o $@ $^
+
+%.o: %.c
+    $(CC) $(CFLAGS) -c $<
+
+clean:
+    rm -f $(OBJ) $(TARGET)
+```
+
+This format can be adapted to any command-line tool one would have, including Python commands.
+
+```sh
+.PHONY: lint test format
+
+lint:
+    flake8 src/ tests/
+
+test:
+    pytest tests/
+
+format:
+    black src/ tests/
+```
+
+While Makefiles are powerful and widely supported, they have some limitations when used in modern Python projects, especially those relying on virtual environments and dependency managers:
+
+- **Environment Awareness**: Makefiles are shell-based and do not natively handle Python virtual environments. This can lead to issues where commands are run outside the intended environment, causing dependency or version mismatches.
+- **Cross-Platform Compatibility**: Makefile syntax and commands can behave differently across operating systems (e.g., Windows vs. Unix), making them less portable for teams using diverse setups.
+- **Integration with Python Tools**: Makefiles do not integrate directly with Python project management tools like Poetry or uv, requiring manual setup to ensure the correct environment and dependencies are used.
+- **Limited Variable Handling**: While Makefiles support variables, handling complex environment variables or dynamic configuration can be cumbersome.
+
+## Poethepoet
+
+[Poe the Poet](https://github.com/nat-n/poethepoet) is a modern task runner designed specifically for Python projects. It offers several advantages:
+
+- **Seamless Environment Handling**: Poe runs tasks inside the project's virtual environment, ensuring the correct dependencies and Python version are always used.
+- **Integration with Project Management Tools**: Poe integrates directly with tools like `Poetry` and `uv`, making it easy to manage dependencies and scripts in a unified workflow.
+- **Flexible Environment Variables**: Poe allows you to define and use environment variables within tasks, supporting more dynamic and configurable workflows.
+- **Cross-Platform Consistency**: Poe tasks are defined in TOML (usually in `pyproject.toml`), ensuring consistent behavior across operating systems.
+- **User-Friendly Syntax**: Task definitions are straightforward and easy to maintain, reducing boilerplate and improving readability.
+
+Here is an example on how it would look inside a `pyproject.toml` file.
+
+```sh
+[project.optional-dependencies]
+dev = [
+    "poethepoet",
+    "flake8",
+    "pytest",
+    "black",
+]
+
+[tool.poe.tasks]
+lint = "flake8 src/ tests/"
+test = "pytest tests/"
+format = "black src/ tests/"
+
+# Additional useful tasks
+lint-check = "flake8 src/ tests/ --count --select=E9,F63,F7,F82 --show-source --statistics"
+format-check = "black --check src/ tests/"
+format-diff = "black --diff src/ tests/"
+
+# Composite tasks
+check = ["lint", "test", "format-check"]
+fix = ["format", "lint"]
+
+```
+
+Despite this, sometimes it is not enough. We need to integrate things beyond Python, in complex workflows and ideally using a syntax that makes it simpler to read and manage than TOML command specifications.
+
+## Taskfile
+
+[Taskfile](taskfile.dev) is essentially that. A Go task automation program that offer a lot of functionality in comparison with previous options:
+
+* **Rich feature set**: Variables, includes, dependencies, conditionals, templating
+* **YAML syntax**: More readable for complex tasks and multi-line commands
+* **Language agnostic**: Works well for any project type (Go, Node.js, Python, etc.)
+* **Powerful templating**: Built-in Go template engine for dynamic task generation
+* **Parallel execution**: Can run tasks concurrently
+* **File watching**: Built-in watch mode for development workflows
+* **Extensive documentation**: Well-documented with many examples
+
+Requires an additional `Taskfile.yml` file for the specification and can have a steep learning curve. Can be an overkill if tasks are simple enough but when projects start getting big, it might be good time to start looking into it.
+
+```yml
+version: '3'
+
+# Global variables
+vars:
+  PROJECT_NAME: my-python-project
+  SRC_DIR: src
+  TESTS_DIR: tests
+  PYTHON_VERSION: "3.11"
+  UV_CACHE_DIR: .uv-cache
+
+# Global environment variables
+env:
+  PYTHONPATH: "{{.SRC_DIR}}"
+  UV_CACHE_DIR: "{{.UV_CACHE_DIR}}"
+  PYTEST_XDIST_WORKER_COUNT: "auto"
+
+# Default task when running 'task' without arguments
+tasks:
+  default:
+    desc: "Show available tasks"
+    cmds:
+      - task --list
+
+  # Environment setup tasks
+  setup:
+    desc: "Complete project setup"
+    deps: [install-uv, install-deps, install-pre-commit]
+    cmds:
+      - echo "✅ Project {{.PROJECT_NAME}} setup complete!"
+
+  install-uv:
+    desc: "Install uv if not present"
+    status:
+      - which uv
+    cmds:
+      - curl -LsSf https://astral.sh/uv/install.sh | sh
+      - echo "✅ uv installed"
+
+  install-deps:
+    desc: "Install all dependencies using uv"
+    deps: [install-uv]
+    sources:
+      - pyproject.toml
+      - uv.lock
+    cmds:
+      - uv sync --all-extras
+      - echo "✅ Dependencies installed"
+
+  install-dev:
+    desc: "Install only development dependencies"
+    deps: [install-uv]
+    cmds:
+      - uv sync --only-dev
+      - echo "✅ Development dependencies installed"
+
+  install-pre-commit:
+    desc: "Install pre-commit hooks"
+    deps: [install-deps]
+    status:
+      - test -f .git/hooks/pre-commit
+    cmds:
+      - uv run pre-commit install
+      - echo "✅ Pre-commit hooks installed"
+
+  # Code quality tasks
+  lint:
+    desc: "Run ruff linter"
+    deps: [install-deps]
+    sources:
+      - "{{.SRC_DIR}}/**/*.py"
+      - "{{.TESTS_DIR}}/**/*.py"
+      - pyproject.toml
+    cmds:
+      - uv run ruff check {{.SRC_DIR}} {{.TESTS_DIR}}
+
+  lint-fix:
+    desc: "Run ruff linter with auto-fix"
+    deps: [install-deps]
+    cmds:
+      - uv run ruff check --fix {{.SRC_DIR}} {{.TESTS_DIR}}
+      - echo "✅ Linting fixes applied"
+
+  format:
+    desc: "Format code with ruff"
+    deps: [install-deps]
+    sources:
+      - "{{.SRC_DIR}}/**/*.py"
+      - "{{.TESTS_DIR}}/**/*.py"
+    cmds:
+      - uv run ruff format {{.SRC_DIR}} {{.TESTS_DIR}}
+      - echo "✅ Code formatted"
+
+  format-check:
+    desc: "Check code formatting without making changes"
+    deps: [install-deps]
+    cmds:
+      - uv run ruff format --check {{.SRC_DIR}} {{.TESTS_DIR}}
+
+  # Testing tasks
+  test:
+    desc: "Run unit tests"
+    deps: [install-deps]
+    env:
+      COVERAGE_FILE: ".coverage"
+    sources:
+      - "{{.SRC_DIR}}/**/*.py"
+      - "{{.TESTS_DIR}}/**/*.py"
+    cmds:
+      - uv run pytest {{.TESTS_DIR}} -v --cov={{.SRC_DIR}} --cov-report=term-missing --cov-report=html
+      - echo "✅ Tests completed"
+
+  test-fast:
+    desc: "Run tests in parallel for faster execution"
+    deps: [install-deps]
+    cmds:
+      - uv run pytest {{.TESTS_DIR}} -n {{.PYTEST_XDIST_WORKER_COUNT}} --dist=worksteal
+
+  test-watch:
+    desc: "Run tests in watch mode"
+    deps: [install-deps]
+    cmds:
+      - uv run pytest-watch {{.TESTS_DIR}} -- -v
+
+  # Pre-commit tasks
+  pre-commit:
+    desc: "Run pre-commit on all files"
+    deps: [install-pre-commit]
+    cmds:
+      - uv run pre-commit run --all-files
+
+  pre-commit-update:
+    desc: "Update pre-commit hooks"
+    deps: [install-pre-commit]
+    cmds:
+      - uv run pre-commit autoupdate
+      - echo "✅ Pre-commit hooks updated"
+
+  # Combined quality checks
+  check:
+    desc: "Run all quality checks"
+    deps: [lint, format-check, test]
+    cmds:
+      - echo "✅ All quality checks passed!"
+
+  fix:
+    desc: "Auto-fix all issues"
+    deps: [format, lint-fix]
+    cmds:
+      - echo "✅ All auto-fixes applied!"
+
+  # CI/CD simulation
+  ci:
+    desc: "Run CI pipeline locally"
+    deps: [install-deps]
+    cmds:
+      - task: format-check
+      - task: lint
+      - task: test
+      - task: pre-commit
+      - echo "✅ CI pipeline completed successfully!"
+
+  # Development environment tasks
+  dev-setup:
+    desc: "Setup development environment from scratch"
+    cmds:
+      - task: clean
+      - task: setup
+      - echo "✅ Development environment ready!"
+
+  clean:
+    desc: "Clean up generated files and caches"
+    cmds:
+      - rm -rf .pytest_cache/
+      - rm -rf .coverage
+      - rm -rf htmlcov/
+      - rm -rf {{.UV_CACHE_DIR}}
+      - rm -rf .ruff_cache/
+      - find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+      - find . -name "*.pyc" -delete 2>/dev/null || true
+      - echo "✅ Cleaned up caches and generated files"
+
+  # Utility tasks
+  deps-outdated:
+    desc: "Check for outdated dependencies"
+    deps: [install-uv]
+    cmds:
+      - uv tree --outdated
+
+  deps-update:
+    desc: "Update all dependencies"
+    deps: [install-uv]
+    cmds:
+      - uv lock --upgrade
+      - uv sync
+      - echo "✅ Dependencies updated"
+
+  info:
+    desc: "Show project information"
+    cmds:
+      - echo "Project: {{.PROJECT_NAME}}"
+      - echo "Python: {{.PYTHON_VERSION}}"
+      - echo "Source: {{.SRC_DIR}}"
+      - echo "Tests: {{.TESTS_DIR}}"
+      - echo "UV Cache: {{.UV_CACHE_DIR}}"
+      - echo "Python Path: ${PYTHONPATH}"
+
+```
+
+Not bad. I hope it helps.
