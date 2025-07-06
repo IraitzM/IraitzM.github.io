@@ -10,11 +10,154 @@ There are som many _requirements.txt_ files out there. Oh man. I do struggle eve
 
 ## The _old_ one
 
-[Poetry](https://python-poetry.org/) is probably the most known one, in particular when it comes to software development. It set the standard on how we should move forward managing python projects.
+[Poetry](https://python-poetry.org/) is probably the most known one, in particular when it comes to software development. It sets the standard on how we should move forward managing python projects.
+
+After creating your project
+```sh
+poetry new mywork
+```
+
+You will have a basic structure to work with.
+
+```
+mywork
+├── pyproject.toml
+├── README.md
+├── src
+│   └── mywork
+│       └── __init__.py
+└── tests
+    └── __init__.py
+```
+
+The key here is the `pyproject.toml` file that keeps the description of your project, required Python version, default and other groups of dependencies... everything organized.
+
+```
+[tool.poetry]
+name = "mywork"
+version = "0.1.0"
+description = "My project"
+authors = [
+    "Iraitz Montalbán <iraitzm@gmail.com>"
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+```
+
+You can keep on adding dependencies
+
+```sh
+poetry add ruff
+```
+
+```
+...
+
+[tool.poetry.dependencies]
+python = "^3.10"
+ruff = "^0.12.2"
+...
+```
+
+Or create them as part of your development dependencies (not needed for the final code but you want to add them for the work in progress).
+
+```
+...
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.12.2"
+...
+```
+
+The `.lock` file that gets created allows to manage the version dependencies for your code to work.
 
 ## My main option
 
 I have been using [PDM](https://pdm-project.org/en/latest/) for a while now. It creates a basic structure and you don't need to worry about the development dependencies. They will be installed by default while keeping everything in order on your TOML file.
+
+```sh
+pdm init
+```
+asks for the Python version to be used and guides the creation of the project using the CLI.  It tells you if you would like to falg the project for creating a package (such as wheel) and which building backend to be used.
+
+```
+Which build backend to use?
+0. pdm-backend
+1. setuptools
+2. flit-core
+3. hatchling
+```
+It also detects the existence of a previos Poetry project or requirements.txt file and asks you if you would like to import it.
+
+```
+mywork
+├── pyproject.toml
+├── .pdm-python
+├── README.md
+├── src
+│   └── mywork
+│       └── __init__.py
+└── tests
+    └── __init__.py
+```
+
+Same functionality as before, it helps you add dependencies, be it by default or to any other group you might want to create. Like for notebooks in your code:
+
+```sh
+pdm add -dG notebooks ipykernel
+```
+
+```
+[project]
+name = "mywork"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Iraitz Montalbán", email = "iraitzm@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[dependency-groups]
+notebooks = [
+    "ipykernel>=6.29.5",
+]
+```
+
+Both, Poetry and PDM, allow you to create the a virtual environment that complies with the libraries that have been specified and also run anything on it by following the command
+
+```sh
+pdm run ...
+```
+
+It also includes other functionalities like:
+
+* CLI script calling: https://pdm-project.org/latest/usage/scripts/#user-scripts
+```
+[project.scripts]
+command = "main.cli:cli"
+```
+* Dynamic versioning: https://backend.pdm-project.org/metadata/
+* Building and publishing: https://pdm-project.org/latest/usage/publish/
 
 ## the _new kid on the block_
 
