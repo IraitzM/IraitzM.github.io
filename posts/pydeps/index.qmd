@@ -183,4 +183,4 @@ uv sync --all-extras --dev
 ```
 it is a minor thing, but you need to remember it.
 
-More on this? There is a [beautiful entry](https://alpopkes.com/posts/python/packaging_tools/) by Anna-Lena Popkes  on her blog definitely worth checking.
+More on this? There is a [beautiful entry](https://alpopkes.com/posts/python/packaging_tools/) by Anna-Lena Popkes  on her blog definitely worth checking or you can simply jump to the uv section at [Python Developers Handbook](https://pydevtools.com/handbook/reference/uv/).
