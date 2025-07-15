@@ -1,0 +1,36 @@
+---
+title: "Useful resources"
+author: "Iraitz Montalban"
+date: 03-15-2025
+categories: [resources, books, cheatsheets]
+image: "icon.webp"
+---
+
+Every once in a while I ran into some interesting resources and I never know where to put them. Somehow bookmarks don't seem to work for resources that I use less frequently but I never know where to find them when I need them, so I decided to list them in this blog. That way, other can find them.
+
+## Data Science
+
+### Introductory material (Spanish)
+
+A bit outdated but still useful [Aprende con Alf](https://aprendeconalf.es/)
+
+### People Analytics
+
+Some details on how to do regression modelling applied to [People Analytics](https://peopleanalytics-regression-book.org/)
+
+### Finance
+
+This is a must for those working in [Finance](https://www.tidy-finance.org/python/)
+
+## Deep Learning
+
+Must you must know:
+
+* [Deep Learning](https://www.deeplearningbook.org/)
+* [Understanding Deep Learning](https://udlbook.github.io/udlbook/)
+* Really useful cheatsheets [https://stanford.edu/~shervine/teaching/](https://stanford.edu/~shervine/teaching/)
+
+### LLMs
+
+* How to [scale them](https://jax-ml.github.io/scaling-book/)
+* [Anthropic Academy](https://www.anthropic.com/learn)

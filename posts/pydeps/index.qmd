@@ -183,4 +183,10 @@ uv sync --all-extras --dev
 ```
 it is a minor thing, but you need to remember it.
 
+Funny this is that we have not forgot our old friend, so you might need to refresh your _requirements.txt_ every once in a while. All previous tools know that so they all allow you to export the dependencies in that format.
+
+```sh
+uv export --no-hashes -o requirements.txt
+```
+
 More on this? There is a [beautiful entry](https://alpopkes.com/posts/python/packaging_tools/) by Anna-Lena Popkes  on her blog definitely worth checking or you can simply jump to the uv section at [Python Developers Handbook](https://pydevtools.com/handbook/reference/uv/).
