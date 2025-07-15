@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Iraitz Montalban">
-<meta name="dcterms.date" content="2025-07-03">
+<meta name="dcterms.date" content="2025-03-15">
 
-<title>Python project management – Iraitz’s blog</title>
+<title>Useful resources – Iraitz’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -124,12 +89,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Python project management – Iraitz’s blog">
+<meta property="og:title" content="Useful resources – Iraitz’s blog">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://IraitzM.github.io/posts/pydeps/pydeps.png">
+<meta property="og:image" content="https://IraitzM.github.io/posts/resources/icon.webp">
 <meta property="og:site_name" content="Iraitz's blog">
-<meta property="og:image:height" content="275">
-<meta property="og:image:width" content="510">
 </head>
 
 <body class="nav-fixed fullcontent quarto-light">
@@ -174,10 +137,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Python project management</h1>
+      <h1 class="title">Useful resources</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">dependencies</div>
-                <div class="quarto-category">python</div>
+                <div class="quarto-category">resources</div>
+                <div class="quarto-category">books</div>
+                <div class="quarto-category">cheatsheets</div>
               </div>
                   </div>
   </div>
@@ -195,7 +159,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">July 3, 2025</p>
+        <p class="date">March 15, 2025</p>
       </div>
     </div>
     
@@ -217,133 +181,39 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 
-<p>There are som many <em>requirements.txt</em> files out there. Oh man. I do struggle every time somebody asks for the requirements file. There are so many options much better than that.</p>
-<section id="the-old-one" class="level2">
-<h2 class="anchored" data-anchor-id="the-old-one">The <em>old</em> one</h2>
-<p><a href="https://python-poetry.org/">Poetry</a> is probably the most known one, in particular when it comes to software development. It sets the standard on how we should move forward managing python projects.</p>
-<p>After creating your project</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> new mywork</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>You will have a basic structure to work with.</p>
-<pre><code>mywork
-├── pyproject.toml
-├── README.md
-├── src
-│   └── mywork
-│       └── __init__.py
-└── tests
-    └── __init__.py</code></pre>
-<p>The key here is the <code>pyproject.toml</code> file that keeps the description of your project, required Python version, default and other groups of dependencies… everything organized.</p>
-<pre><code>[tool.poetry]
-name = "mywork"
-version = "0.1.0"
-description = "My project"
-authors = [
-    "Iraitz Montalbán &lt;iraitzm@gmail.com&gt;"
-]
-readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.10"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"</code></pre>
-<p>You can keep on adding dependencies</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">poetry</span> add ruff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>...
-
-[tool.poetry.dependencies]
-python = "^3.10"
-ruff = "^0.12.2"
-...</code></pre>
-<p>Or create them as part of your development dependencies (not needed for the final code but you want to add them for the work in progress).</p>
-<pre><code>...
-
-[tool.poetry.dependencies]
-python = "^3.10"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.12.2"
-...</code></pre>
-<p>The <code>.lock</code> file that gets created allows to manage the version dependencies for your code to work.</p>
+<p>Every once in a while I ran into some interesting resources and I never know where to put them. Somehow bookmarks don’t seem to work for resources that I use less frequently but I never know where to find them when I need them, so I decided to list them in this blog. That way, other can find them.</p>
+<section id="data-science" class="level2">
+<h2 class="anchored" data-anchor-id="data-science">Data Science</h2>
+<section id="introductory-material-spanish" class="level3">
+<h3 class="anchored" data-anchor-id="introductory-material-spanish">Introductory material (Spanish)</h3>
+<p>A bit outdated but still useful <a href="https://aprendeconalf.es/">Aprende con Alf</a></p>
 </section>
-<section id="my-main-option" class="level2">
-<h2 class="anchored" data-anchor-id="my-main-option">My main option</h2>
-<p>I have been using <a href="https://pdm-project.org/en/latest/">PDM</a> for a while now. It creates a basic structure and you don’t need to worry about the development dependencies. They will be installed by default while keeping everything in order on your TOML file.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pdm</span> init</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>asks for the Python version to be used and guides the creation of the project using the CLI. It tells you if you would like to falg the project for creating a package (such as wheel) and which building backend to be used.</p>
-<pre><code>Which build backend to use?
-0. pdm-backend
-1. setuptools
-2. flit-core
-3. hatchling</code></pre>
-<p>It also detects the existence of a previos Poetry project or requirements.txt file and asks you if you would like to import it.</p>
-<pre><code>mywork
-├── pyproject.toml
-├── .pdm-python
-├── README.md
-├── src
-│   └── mywork
-│       └── __init__.py
-└── tests
-    └── __init__.py</code></pre>
-<p>Same functionality as before, it helps you add dependencies, be it by default or to any other group you might want to create. Like for notebooks in your code:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pdm</span> add <span class="at">-dG</span> notebooks ipykernel</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<pre><code>[project]
-name = "mywork"
-version = "0.1.0"
-description = "Default template for PDM package"
-authors = [
-    {name = "Iraitz Montalbán", email = "iraitzm@gmail.com"},
-]
-dependencies = []
-requires-python = "&gt;=3.11"
-readme = "README.md"
-license = {text = "MIT"}
-
-[build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
-
-[tool.pdm]
-distribution = true
-
-[dependency-groups]
-notebooks = [
-    "ipykernel&gt;=6.29.5",
-]</code></pre>
-<p>Both, Poetry and PDM, allow you to create the a virtual environment that complies with the libraries that have been specified and also run anything on it by following the command</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pdm</span> run ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>It also includes other functionalities like:</p>
-<ul>
-<li>CLI script calling: https://pdm-project.org/latest/usage/scripts/#user-scripts</li>
-</ul>
-<pre><code>[project.scripts]
-command = "main.cli:cli"</code></pre>
-<ul>
-<li>Dynamic versioning: https://backend.pdm-project.org/metadata/</li>
-<li>Building and publishing: https://pdm-project.org/latest/usage/publish/</li>
-</ul>
+<section id="people-analytics" class="level3">
+<h3 class="anchored" data-anchor-id="people-analytics">People Analytics</h3>
+<p>Some details on how to do regression modelling applied to <a href="https://peopleanalytics-regression-book.org/">People Analytics</a></p>
 </section>
-<section id="the-new-kid-on-the-block" class="level2">
-<h2 class="anchored" data-anchor-id="the-new-kid-on-the-block">the <em>new kid on the block</em></h2>
-<p><a href="https://astral.sh/">Astral</a> has some cool projects going on. Ruff, is the go to linter and code formatter for many nowadays. It uses Rust under the hood which makes it really performant. They also had <a href="https://rye.astral.sh/">rye</a> package manager for a while but its successor, <a href="https://docs.astral.sh/uv/">uv</a>, has become the defacto project management tool even though there are some thinks I don’t fully like.</p>
-<p>The mean feature is… well, it is the Usain Bolt of the package installers. Soooo fast. Solves the dependency tree blazing fast and keeps the local environment up to date.</p>
-<p>Two things that make me still prefer PDM over uv is the project initialization. PDM creates a basic folder structure that works for me</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">project</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">-</span> src/</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">-</span> test/</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="kw">|</span> <span class="ex">-</span> pyproject.toml</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>while uv creates a <em>hello.py</em> file that I have to delete all the time.</p>
-<p>Probably the most annoying thing about uv is when you need to add all extras to you local development environment. You need to run</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> sync <span class="at">--all-extras</span> <span class="at">--dev</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>it is a minor thing, but you need to remember it.</p>
-<p>Funny this is that we have not forgot our old friend, so you might need to refresh your <em>requirements.txt</em> every once in a while. All previous tools know that so they all allow you to export the dependencies in that format.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> export <span class="at">--no-hashes</span> <span class="at">-o</span> requirements.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>More on this? There is a <a href="https://alpopkes.com/posts/python/packaging_tools/">beautiful entry</a> by Anna-Lena Popkes on her blog definitely worth checking or you can simply jump to the uv section at <a href="https://pydevtools.com/handbook/reference/uv/">Python Developers Handbook</a>.</p>
+<section id="finance" class="level3">
+<h3 class="anchored" data-anchor-id="finance">Finance</h3>
+<p>This is a must for those working in <a href="https://www.tidy-finance.org/python/">Finance</a></p>
+</section>
+</section>
+<section id="deep-learning" class="level2">
+<h2 class="anchored" data-anchor-id="deep-learning">Deep Learning</h2>
+<p>Must you must know:</p>
+<ul>
+<li><a href="https://www.deeplearningbook.org/">Deep Learning</a></li>
+<li><a href="https://udlbook.github.io/udlbook/">Understanding Deep Learning</a></li>
+<li>Really useful cheatsheets <a href="https://stanford.edu/~shervine/teaching/">https://stanford.edu/~shervine/teaching/</a></li>
+</ul>
+<section id="llms" class="level3">
+<h3 class="anchored" data-anchor-id="llms">LLMs</h3>
+<ul>
+<li>How to <a href="https://jax-ml.github.io/scaling-book/">scale them</a></li>
+<li><a href="https://www.anthropic.com/learn">Anthropic Academy</a></li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
