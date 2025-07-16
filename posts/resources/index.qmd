@@ -10,9 +10,8 @@ Every once in a while I ran into some interesting resources and I never know whe
 
 ## Data Science
 
-### Introductory material (Spanish)
-
-A bit outdated but still useful [Aprende con Alf](https://aprendeconalf.es/)
+A cool end-to-end course showing both local and remote DS life cycle steps : [https://madewithml.com/](https://madewithml.com/)
+(Spanish) A bit outdated but still useful [Aprende con Alf](https://aprendeconalf.es/)
 
 ### People Analytics
 
