@@ -35,3 +35,4 @@ Must you must know:
 
 * How to [scale them](https://jax-ml.github.io/scaling-book/)
 * [Anthropic Academy](https://www.anthropic.com/learn)
+* Exercises from the Book [Hands on Large Language Models](https://github.com/HandsOnLLM/Hands-On-Large-Language-Models)
