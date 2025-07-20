@@ -34,6 +34,9 @@ Must you must know:
 
 ### LLMs
 
+I can really recommend [Sebastian Raschka's magazine](https://magazine.sebastianraschka.com/) to deep dive into concepts and architectures. But there are many other resources available out there:
+
 * How to [scale them](https://jax-ml.github.io/scaling-book/)
+* BentoML's take on [inference](https://bentoml.com/llm/)
 * [Anthropic Academy](https://www.anthropic.com/learn)
 * Exercises from the Book [Hands on Large Language Models](https://github.com/HandsOnLLM/Hands-On-Large-Language-Models)
