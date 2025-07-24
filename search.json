@@ -46,7 +46,7 @@
     "href": "posts/resources/index.html#deep-learning",
     "title": "Helpful resources",
     "section": "Deep Learning",
-    "text": "Deep Learning\nMust you must know:\n\nDeep Learning\nUnderstanding Deep Learning\nReally useful cheatsheets https://stanford.edu/~shervine/teaching/\n\n\nLLMs\nI can really recommend Sebastian Raschka’s magazine to deep dive into concepts and architectures. But there are many other resources available out there:\n\nHow to scale them\nBentoML’s take on inference\nAnthropic Academy\nExercises from the Book Hands on Large Language Models"
+    "text": "Deep Learning\nMust you must know:\n\nDeep Learning\nUnderstanding Deep Learning\nReally useful cheatsheets https://stanford.edu/~shervine/teaching/\n\n\nLLMs\nI can really recommend Sebastian Raschka’s magazine to deep dive into concepts and architectures. But there are many other resources available out there:\n\nApplied LLMs has quite some resources you can explore\nHow to scale them\nBentoML’s take on inference\nAnthropic Academy\nExercises from the Book Hands on Large Language Models"
   },
   {
     "objectID": "posts/pydeps/index.html",
