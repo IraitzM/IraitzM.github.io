@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/orchestration/index.html",
       "/posts/resources/index.html",
       "/posts/tasks/index.html",
       "/posts/pydeps/index.html",
