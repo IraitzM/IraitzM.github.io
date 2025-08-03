@@ -36,6 +36,7 @@ Must you must know:
 
 I can really recommend [Sebastian Raschka's magazine](https://magazine.sebastianraschka.com/) to deep dive into concepts and architectures. But there are many other resources available out there:
 
+* [Foundations of LLMs](https://arxiv.org/pdf/2501.09223)
 * [Applied LLMs](https://applied-llms.org/) has quite some resources you can explore
 * How to [scale them](https://jax-ml.github.io/scaling-book/)
 * BentoML's take on [inference](https://bentoml.com/llm/)
