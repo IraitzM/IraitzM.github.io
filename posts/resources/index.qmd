@@ -31,6 +31,8 @@ Must you must know:
 * [Deep Learning](https://www.deeplearningbook.org/)
 * [Understanding Deep Learning](https://udlbook.github.io/udlbook/)
 * Really useful cheatsheets [https://stanford.edu/~shervine/teaching/](https://stanford.edu/~shervine/teaching/)
+* Some cool visualizations that help better understand the concept:
+* * [ML Visualized](https://ml-visualized.com/)
 
 ### LLMs
 
