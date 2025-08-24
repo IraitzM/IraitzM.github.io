@@ -1,5 +1,47 @@
 [
   {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Iraitz’s blog",
+    "section": "",
+    "text": "Orchestration\n\n\n\norchestration\n\npipelines\n\npython\n\n\n\n\n\n\n\n\n\nAug 3, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nHelpful resources\n\n\n\nresources\n\nbooks\n\ncheatsheets\n\n\n\n\n\n\n\n\n\nJul 15, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nTask automation\n\n\n\ntasks\n\npython\n\n\n\n\n\n\n\n\n\nJul 5, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nPython project management\n\n\n\ndependencies\n\npython\n\n\n\n\n\n\n\n\n\nJul 3, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation and sites\n\n\n\ndocs\n\npython\n\n\n\n\n\n\n\n\n\nJun 26, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\nIraitz Montalban\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "posts/pydeps/index.html",
+    "href": "posts/pydeps/index.html",
+    "title": "Python project management",
+    "section": "",
+    "text": "There are som many requirements.txt files out there. Oh man. I do struggle every time somebody asks for the requirements file. There are so many options much better than that."
+  },
+  {
+    "objectID": "posts/pydeps/index.html#the-old-one",
+    "href": "posts/pydeps/index.html#the-old-one",
+    "title": "Python project management",
+    "section": "The old one",
+    "text": "The old one\nPoetry is probably the most known one, in particular when it comes to software development. It sets the standard on how we should move forward managing python projects.\nAfter creating your project\npoetry new mywork\nYou will have a basic structure to work with.\nmywork\n├── pyproject.toml\n├── README.md\n├── src\n│   └── mywork\n│       └── __init__.py\n└── tests\n    └── __init__.py\nThe key here is the pyproject.toml file that keeps the description of your project, required Python version, default and other groups of dependencies… everything organized.\n[tool.poetry]\nname = \"mywork\"\nversion = \"0.1.0\"\ndescription = \"My project\"\nauthors = [\n    \"Iraitz Montalbán &lt;iraitzm@gmail.com&gt;\"\n]\nreadme = \"README.md\"\n\n[tool.poetry.dependencies]\npython = \"^3.10\"\n\n\n[build-system]\nrequires = [\"poetry-core\"]\nbuild-backend = \"poetry.core.masonry.api\"\nYou can keep on adding dependencies\npoetry add ruff\n...\n\n[tool.poetry.dependencies]\npython = \"^3.10\"\nruff = \"^0.12.2\"\n...\nOr create them as part of your development dependencies (not needed for the final code but you want to add them for the work in progress).\n...\n\n[tool.poetry.dependencies]\npython = \"^3.10\"\n\n[tool.poetry.group.dev.dependencies]\nruff = \"^0.12.2\"\n...\nThe .lock file that gets created allows to manage the version dependencies for your code to work."
+  },
+  {
+    "objectID": "posts/pydeps/index.html#my-main-option",
+    "href": "posts/pydeps/index.html#my-main-option",
+    "title": "Python project management",
+    "section": "My main option",
+    "text": "My main option\nI have been using PDM for a while now. It creates a basic structure and you don’t need to worry about the development dependencies. They will be installed by default while keeping everything in order on your TOML file.\npdm init\nasks for the Python version to be used and guides the creation of the project using the CLI. It tells you if you would like to falg the project for creating a package (such as wheel) and which building backend to be used.\nWhich build backend to use?\n0. pdm-backend\n1. setuptools\n2. flit-core\n3. hatchling\nIt also detects the existence of a previos Poetry project or requirements.txt file and asks you if you would like to import it.\nmywork\n├── pyproject.toml\n├── .pdm-python\n├── README.md\n├── src\n│   └── mywork\n│       └── __init__.py\n└── tests\n    └── __init__.py\nSame functionality as before, it helps you add dependencies, be it by default or to any other group you might want to create. Like for notebooks in your code:\npdm add -dG notebooks ipykernel\n[project]\nname = \"mywork\"\nversion = \"0.1.0\"\ndescription = \"Default template for PDM package\"\nauthors = [\n    {name = \"Iraitz Montalbán\", email = \"iraitzm@gmail.com\"},\n]\ndependencies = []\nrequires-python = \"&gt;=3.11\"\nreadme = \"README.md\"\nlicense = {text = \"MIT\"}\n\n[build-system]\nrequires = [\"pdm-backend\"]\nbuild-backend = \"pdm.backend\"\n\n[tool.pdm]\ndistribution = true\n\n[dependency-groups]\nnotebooks = [\n    \"ipykernel&gt;=6.29.5\",\n]\nBoth, Poetry and PDM, allow you to create the a virtual environment that complies with the libraries that have been specified and also run anything on it by following the command\npdm run ...\nIt also includes other functionalities like:\n\nCLI script calling: https://pdm-project.org/latest/usage/scripts/#user-scripts\n\n[project.scripts]\ncommand = \"main.cli:cli\"\n\nDynamic versioning: https://backend.pdm-project.org/metadata/\nBuilding and publishing: https://pdm-project.org/latest/usage/publish/"
+  },
+  {
+    "objectID": "posts/pydeps/index.html#the-new-kid-on-the-block",
+    "href": "posts/pydeps/index.html#the-new-kid-on-the-block",
+    "title": "Python project management",
+    "section": "the new kid on the block",
+    "text": "the new kid on the block\nAstral has some cool projects going on. Ruff, is the go to linter and code formatter for many nowadays. It uses Rust under the hood which makes it really performant. They also had rye package manager for a while but its successor, uv, has become the defacto project management tool even though there are some thinks I don’t fully like.\nThe mean feature is… well, it is the Usain Bolt of the package installers. Soooo fast. Solves the dependency tree blazing fast and keeps the local environment up to date.\nTwo things that make me still prefer PDM over uv is the project initialization. PDM creates a basic folder structure that works for me\nproject\n| - src/\n| - test/\n| - pyproject.toml\nwhile uv creates a hello.py file that I have to delete all the time.\nProbably the most annoying thing about uv is when you need to add all extras to you local development environment. You need to run\nuv sync --all-extras --dev\nit is a minor thing, but you need to remember it.\nFunny this is that we have not forgot our old friend, so you might need to refresh your requirements.txt every once in a while. All previous tools know that so they all allow you to export the dependencies in that format.\nuv export --no-hashes -o requirements.txt\nMore on this? There is a beautiful entry by Anna-Lena Popkes on her blog definitely worth checking or you can simply jump to the uv section at Python Developers Handbook."
+  },
+  {
+    "objectID": "posts/welcome/welcome.html",
+    "href": "posts/welcome/welcome.html",
+    "title": "Welcome",
+    "section": "",
+    "text": "Hi! My name is Iraitz Montalbán and I love to mess around with technology.\nActually I am using this blog to explore new-ish technology and explain things so other can benefit from it and meanwhile, I can get a better understanding on it. So, sometimes I will be talking about Python or Julia and the controversy around which one is best, will be exploring really basic stuff so I can refresh my memory, maybe review a paper or simply just play around with a new tool.\nI will just let my curiosity drive this thing wherever it takes me. Happy that you want to join me."
+  },
+  {
     "objectID": "posts/quarto/post.html",
     "href": "posts/quarto/post.html",
     "title": "Documentation and sites",
@@ -56,76 +98,6 @@
     "text": "Taskfile\nTaskfile is essentially that. A Go task automation program that offer a lot of functionality in comparison with previous options:\n\nRich feature set: Variables, includes, dependencies, conditionals, templating\nYAML syntax: More readable for complex tasks and multi-line commands\nLanguage agnostic: Works well for any project type (Go, Node.js, Python, etc.)\nPowerful templating: Built-in Go template engine for dynamic task generation\nParallel execution: Can run tasks concurrently\nFile watching: Built-in watch mode for development workflows\nExtensive documentation: Well-documented with many examples\n\nRequires an additional Taskfile.yml file for the specification and can have a steep learning curve. Can be an overkill if tasks are simple enough but when projects start getting big, it might be good time to start looking into it.\nversion: '3'\n\n# Global variables\nvars:\n  PROJECT_NAME: my-python-project\n  SRC_DIR: src\n  TESTS_DIR: tests\n  PYTHON_VERSION: \"3.11\"\n  UV_CACHE_DIR: .uv-cache\n\n# Global environment variables\nenv:\n  PYTHONPATH: \"{{.SRC_DIR}}\"\n  UV_CACHE_DIR: \"{{.UV_CACHE_DIR}}\"\n  PYTEST_XDIST_WORKER_COUNT: \"auto\"\n\n# Default task when running 'task' without arguments\ntasks:\n  default:\n    desc: \"Show available tasks\"\n    cmds:\n      - task --list\n\n  # Environment setup tasks\n  setup:\n    desc: \"Complete project setup\"\n    deps: [install-uv, install-deps, install-pre-commit]\n    cmds:\n      - echo \"✅ Project {{.PROJECT_NAME}} setup complete!\"\n\n  install-uv:\n    desc: \"Install uv if not present\"\n    status:\n      - which uv\n    cmds:\n      - curl -LsSf https://astral.sh/uv/install.sh | sh\n      - echo \"✅ uv installed\"\n\n  install-deps:\n    desc: \"Install all dependencies using uv\"\n    deps: [install-uv]\n    sources:\n      - pyproject.toml\n      - uv.lock\n    cmds:\n      - uv sync --all-extras\n      - echo \"✅ Dependencies installed\"\n\n  install-dev:\n    desc: \"Install only development dependencies\"\n    deps: [install-uv]\n    cmds:\n      - uv sync --only-dev\n      - echo \"✅ Development dependencies installed\"\n\n  install-pre-commit:\n    desc: \"Install pre-commit hooks\"\n    deps: [install-deps]\n    status:\n      - test -f .git/hooks/pre-commit\n    cmds:\n      - uv run pre-commit install\n      - echo \"✅ Pre-commit hooks installed\"\n\n  # Code quality tasks\n  lint:\n    desc: \"Run ruff linter\"\n    deps: [install-deps]\n    sources:\n      - \"{{.SRC_DIR}}/**/*.py\"\n      - \"{{.TESTS_DIR}}/**/*.py\"\n      - pyproject.toml\n    cmds:\n      - uv run ruff check {{.SRC_DIR}} {{.TESTS_DIR}}\n\n  lint-fix:\n    desc: \"Run ruff linter with auto-fix\"\n    deps: [install-deps]\n    cmds:\n      - uv run ruff check --fix {{.SRC_DIR}} {{.TESTS_DIR}}\n      - echo \"✅ Linting fixes applied\"\n\n  format:\n    desc: \"Format code with ruff\"\n    deps: [install-deps]\n    sources:\n      - \"{{.SRC_DIR}}/**/*.py\"\n      - \"{{.TESTS_DIR}}/**/*.py\"\n    cmds:\n      - uv run ruff format {{.SRC_DIR}} {{.TESTS_DIR}}\n      - echo \"✅ Code formatted\"\n\n  format-check:\n    desc: \"Check code formatting without making changes\"\n    deps: [install-deps]\n    cmds:\n      - uv run ruff format --check {{.SRC_DIR}} {{.TESTS_DIR}}\n\n  # Testing tasks\n  test:\n    desc: \"Run unit tests\"\n    deps: [install-deps]\n    env:\n      COVERAGE_FILE: \".coverage\"\n    sources:\n      - \"{{.SRC_DIR}}/**/*.py\"\n      - \"{{.TESTS_DIR}}/**/*.py\"\n    cmds:\n      - uv run pytest {{.TESTS_DIR}} -v --cov={{.SRC_DIR}} --cov-report=term-missing --cov-report=html\n      - echo \"✅ Tests completed\"\n\n  test-fast:\n    desc: \"Run tests in parallel for faster execution\"\n    deps: [install-deps]\n    cmds:\n      - uv run pytest {{.TESTS_DIR}} -n {{.PYTEST_XDIST_WORKER_COUNT}} --dist=worksteal\n\n  test-watch:\n    desc: \"Run tests in watch mode\"\n    deps: [install-deps]\n    cmds:\n      - uv run pytest-watch {{.TESTS_DIR}} -- -v\n\n  # Pre-commit tasks\n  pre-commit:\n    desc: \"Run pre-commit on all files\"\n    deps: [install-pre-commit]\n    cmds:\n      - uv run pre-commit run --all-files\n\n  pre-commit-update:\n    desc: \"Update pre-commit hooks\"\n    deps: [install-pre-commit]\n    cmds:\n      - uv run pre-commit autoupdate\n      - echo \"✅ Pre-commit hooks updated\"\n\n  # Combined quality checks\n  check:\n    desc: \"Run all quality checks\"\n    deps: [lint, format-check, test]\n    cmds:\n      - echo \"✅ All quality checks passed!\"\n\n  fix:\n    desc: \"Auto-fix all issues\"\n    deps: [format, lint-fix]\n    cmds:\n      - echo \"✅ All auto-fixes applied!\"\n\n  # CI/CD simulation\n  ci:\n    desc: \"Run CI pipeline locally\"\n    deps: [install-deps]\n    cmds:\n      - task: format-check\n      - task: lint\n      - task: test\n      - task: pre-commit\n      - echo \"✅ CI pipeline completed successfully!\"\n\n  # Development environment tasks\n  dev-setup:\n    desc: \"Setup development environment from scratch\"\n    cmds:\n      - task: clean\n      - task: setup\n      - echo \"✅ Development environment ready!\"\n\n  clean:\n    desc: \"Clean up generated files and caches\"\n    cmds:\n      - rm -rf .pytest_cache/\n      - rm -rf .coverage\n      - rm -rf htmlcov/\n      - rm -rf {{.UV_CACHE_DIR}}\n      - rm -rf .ruff_cache/\n      - find . -type d -name \"__pycache__\" -exec rm -rf {} + 2&gt;/dev/null || true\n      - find . -name \"*.pyc\" -delete 2&gt;/dev/null || true\n      - echo \"✅ Cleaned up caches and generated files\"\n\n  # Utility tasks\n  deps-outdated:\n    desc: \"Check for outdated dependencies\"\n    deps: [install-uv]\n    cmds:\n      - uv tree --outdated\n\n  deps-update:\n    desc: \"Update all dependencies\"\n    deps: [install-uv]\n    cmds:\n      - uv lock --upgrade\n      - uv sync\n      - echo \"✅ Dependencies updated\"\n\n  info:\n    desc: \"Show project information\"\n    cmds:\n      - echo \"Project: {{.PROJECT_NAME}}\"\n      - echo \"Python: {{.PYTHON_VERSION}}\"\n      - echo \"Source: {{.SRC_DIR}}\"\n      - echo \"Tests: {{.TESTS_DIR}}\"\n      - echo \"UV Cache: {{.UV_CACHE_DIR}}\"\n      - echo \"Python Path: ${PYTHONPATH}\"\nNot bad. I hope it helps."
   },
   {
-    "objectID": "posts/welcome/welcome.html",
-    "href": "posts/welcome/welcome.html",
-    "title": "Welcome",
-    "section": "",
-    "text": "Hi! My name is Iraitz Montalbán and I love to mess around with technology.\nActually I am using this blog to explore new-ish technology and explain things so other can benefit from it and meanwhile, I can get a better understanding on it. So, sometimes I will be talking about Python or Julia and the controversy around which one is best, will be exploring really basic stuff so I can refresh my memory, maybe review a paper or simply just play around with a new tool.\nI will just let my curiosity drive this thing wherever it takes me. Happy that you want to join me."
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Iraitz’s blog",
-    "section": "",
-    "text": "Orchestration\n\n\n\norchestration\n\npipelines\n\npython\n\n\n\n\n\n\n\n\n\nAug 3, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nHelpful resources\n\n\n\nresources\n\nbooks\n\ncheatsheets\n\n\n\n\n\n\n\n\n\nJul 15, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nTask automation\n\n\n\ntasks\n\npython\n\n\n\n\n\n\n\n\n\nJul 5, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nPython project management\n\n\n\ndependencies\n\npython\n\n\n\n\n\n\n\n\n\nJul 3, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation and sites\n\n\n\ndocs\n\npython\n\n\n\n\n\n\n\n\n\nJun 26, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\nIraitz Montalban\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "&lt;iframe src=\"https://www.googletagmanager.com/ns.html?id=GTM-PLKHBRCG\" height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"&gt;&lt;/iframe&gt;\n\nHi! This is Iraitz, data and computing enthusiast. That is why you will see plenty things about Data Engineering, Scientific Computing and Machine Learning around here.\n\n\n\n\n\ntimeline\n    section Early Career (2008-2013)\n        2008-10 : Computer Science (UPV/EHU)\n                : NLP at Ixa taldea (UPV/EHU)\n                : AI Researcher (Fatronik-Tecnalia)\n        2010-13 : Master Mathematical Modeling (UPV/EHU)\n                : Lead Powerline Solutions Engineer (Arteche)\n    section Data Science Era (2014-2020)\n        2014-16 : Data Scientist (Panda Security)\n        2016-21 : Global Data Architect (Iberdrola)\n        2017-23 : Lecturer on Big Data & Business Intelligence (Deusto)\n                : Lecturer on Big Data & Business Intelligence (UOC)\n                : Lecturer (European Data Incubator)\n        2019-20 : Master Data Protection (UNIR)\n    section Leadership & Innovation (2021-2024)\n        2021-22 : Innovation Lead (SDG Group)\n                : Master Quantum Computing (UPM)\n        2022-23 : Lead Product Developer (Kipu Quantum)\n    section QML and HPC (2024-Present)\n        2024-... : PhD High Performance Computing (U. Oviedo)\n                 : Fractional CTO - Banking Transformation\n                 : QML Researcher & CTO (Falcondale)\n                 : Data Science Lecturer (The Bridge School)\n\n\n\n\n\n\nIf you would like to contact or chat, feel free to use my zcal at iraitz.info"
-  },
-  {
-    "objectID": "posts/pydeps/index.html",
-    "href": "posts/pydeps/index.html",
-    "title": "Python project management",
-    "section": "",
-    "text": "There are som many requirements.txt files out there. Oh man. I do struggle every time somebody asks for the requirements file. There are so many options much better than that."
-  },
-  {
-    "objectID": "posts/pydeps/index.html#the-old-one",
-    "href": "posts/pydeps/index.html#the-old-one",
-    "title": "Python project management",
-    "section": "The old one",
-    "text": "The old one\nPoetry is probably the most known one, in particular when it comes to software development. It sets the standard on how we should move forward managing python projects.\nAfter creating your project\npoetry new mywork\nYou will have a basic structure to work with.\nmywork\n├── pyproject.toml\n├── README.md\n├── src\n│   └── mywork\n│       └── __init__.py\n└── tests\n    └── __init__.py\nThe key here is the pyproject.toml file that keeps the description of your project, required Python version, default and other groups of dependencies… everything organized.\n[tool.poetry]\nname = \"mywork\"\nversion = \"0.1.0\"\ndescription = \"My project\"\nauthors = [\n    \"Iraitz Montalbán &lt;iraitzm@gmail.com&gt;\"\n]\nreadme = \"README.md\"\n\n[tool.poetry.dependencies]\npython = \"^3.10\"\n\n\n[build-system]\nrequires = [\"poetry-core\"]\nbuild-backend = \"poetry.core.masonry.api\"\nYou can keep on adding dependencies\npoetry add ruff\n...\n\n[tool.poetry.dependencies]\npython = \"^3.10\"\nruff = \"^0.12.2\"\n...\nOr create them as part of your development dependencies (not needed for the final code but you want to add them for the work in progress).\n...\n\n[tool.poetry.dependencies]\npython = \"^3.10\"\n\n[tool.poetry.group.dev.dependencies]\nruff = \"^0.12.2\"\n...\nThe .lock file that gets created allows to manage the version dependencies for your code to work."
-  },
-  {
-    "objectID": "posts/pydeps/index.html#my-main-option",
-    "href": "posts/pydeps/index.html#my-main-option",
-    "title": "Python project management",
-    "section": "My main option",
-    "text": "My main option\nI have been using PDM for a while now. It creates a basic structure and you don’t need to worry about the development dependencies. They will be installed by default while keeping everything in order on your TOML file.\npdm init\nasks for the Python version to be used and guides the creation of the project using the CLI. It tells you if you would like to falg the project for creating a package (such as wheel) and which building backend to be used.\nWhich build backend to use?\n0. pdm-backend\n1. setuptools\n2. flit-core\n3. hatchling\nIt also detects the existence of a previos Poetry project or requirements.txt file and asks you if you would like to import it.\nmywork\n├── pyproject.toml\n├── .pdm-python\n├── README.md\n├── src\n│   └── mywork\n│       └── __init__.py\n└── tests\n    └── __init__.py\nSame functionality as before, it helps you add dependencies, be it by default or to any other group you might want to create. Like for notebooks in your code:\npdm add -dG notebooks ipykernel\n[project]\nname = \"mywork\"\nversion = \"0.1.0\"\ndescription = \"Default template for PDM package\"\nauthors = [\n    {name = \"Iraitz Montalbán\", email = \"iraitzm@gmail.com\"},\n]\ndependencies = []\nrequires-python = \"&gt;=3.11\"\nreadme = \"README.md\"\nlicense = {text = \"MIT\"}\n\n[build-system]\nrequires = [\"pdm-backend\"]\nbuild-backend = \"pdm.backend\"\n\n[tool.pdm]\ndistribution = true\n\n[dependency-groups]\nnotebooks = [\n    \"ipykernel&gt;=6.29.5\",\n]\nBoth, Poetry and PDM, allow you to create the a virtual environment that complies with the libraries that have been specified and also run anything on it by following the command\npdm run ...\nIt also includes other functionalities like:\n\nCLI script calling: https://pdm-project.org/latest/usage/scripts/#user-scripts\n\n[project.scripts]\ncommand = \"main.cli:cli\"\n\nDynamic versioning: https://backend.pdm-project.org/metadata/\nBuilding and publishing: https://pdm-project.org/latest/usage/publish/"
-  },
-  {
-    "objectID": "posts/pydeps/index.html#the-new-kid-on-the-block",
-    "href": "posts/pydeps/index.html#the-new-kid-on-the-block",
-    "title": "Python project management",
-    "section": "the new kid on the block",
-    "text": "the new kid on the block\nAstral has some cool projects going on. Ruff, is the go to linter and code formatter for many nowadays. It uses Rust under the hood which makes it really performant. They also had rye package manager for a while but its successor, uv, has become the defacto project management tool even though there are some thinks I don’t fully like.\nThe mean feature is… well, it is the Usain Bolt of the package installers. Soooo fast. Solves the dependency tree blazing fast and keeps the local environment up to date.\nTwo things that make me still prefer PDM over uv is the project initialization. PDM creates a basic folder structure that works for me\nproject\n| - src/\n| - test/\n| - pyproject.toml\nwhile uv creates a hello.py file that I have to delete all the time.\nProbably the most annoying thing about uv is when you need to add all extras to you local development environment. You need to run\nuv sync --all-extras --dev\nit is a minor thing, but you need to remember it.\nFunny this is that we have not forgot our old friend, so you might need to refresh your requirements.txt every once in a while. All previous tools know that so they all allow you to export the dependencies in that format.\nuv export --no-hashes -o requirements.txt\nMore on this? There is a beautiful entry by Anna-Lena Popkes on her blog definitely worth checking or you can simply jump to the uv section at Python Developers Handbook."
-  },
-  {
-    "objectID": "posts/resources/index.html",
-    "href": "posts/resources/index.html",
-    "title": "Helpful resources",
-    "section": "",
-    "text": "Every once in a while I ran into some interesting resources and I never know where to put them. Somehow bookmarks don’t seem to work for resources that I use less frequently but I never know where to find them when I need them, so I decided to list them in this blog. That way, other can find them."
-  },
-  {
-    "objectID": "posts/resources/index.html#data-science",
-    "href": "posts/resources/index.html#data-science",
-    "title": "Helpful resources",
-    "section": "Data Science",
-    "text": "Data Science\nA cool end-to-end course showing both local and remote DS life cycle steps : https://madewithml.com/\n(Spanish) A bit outdated but still useful Aprende con Alf\n\nPeople Analytics\nFundamentals of People Analytics with Applications in R\nSome details on how to do regression modelling applied to People Analytics\n\n\nFinance\nThis is a must for those working in Finance"
-  },
-  {
-    "objectID": "posts/resources/index.html#deep-learning",
-    "href": "posts/resources/index.html#deep-learning",
-    "title": "Helpful resources",
-    "section": "Deep Learning",
-    "text": "Deep Learning\nMust you must know:\n\nDeep Learning\nUnderstanding Deep Learning\nReally useful cheatsheets https://stanford.edu/~shervine/teaching/\n\n\nLLMs\nI can really recommend Sebastian Raschka’s magazine to deep dive into concepts and architectures. But there are many other resources available out there:\n\nFoundations of LLMs\nApplied LLMs has quite some resources you can explore\nHow to scale them\nBentoML’s take on inference\nAnthropic Academy\nExercises from the Book Hands on Large Language Models"
-  },
-  {
     "objectID": "posts/orchestration/index.html",
     "href": "posts/orchestration/index.html",
     "title": "Orchestration",
@@ -180,5 +152,33 @@
     "title": "Orchestration",
     "section": "Celery",
     "text": "Celery\nCelery is more a task queue management, therefore task handover and execution is managed by the framework while other features such as task reattempts and result caching might be as straightforward to handle in comparison with other options.\nfrom celery import Celery\n\napp = Celery('hello', broker='amqp://guest@localhost//')\n\n@app.task\ndef hello():\n    return 'hello world'\nWe won’t extend the task scheduling or distributed computing orchestration as this would require a huge post, but consider some frameworks such as Apache Spark or Ray also have part of this ability in them."
+  },
+  {
+    "objectID": "posts/resources/index.html",
+    "href": "posts/resources/index.html",
+    "title": "Helpful resources",
+    "section": "",
+    "text": "Every once in a while I ran into some interesting resources and I never know where to put them. Somehow bookmarks don’t seem to work for resources that I use less frequently but I never know where to find them when I need them, so I decided to list them in this blog. That way, other can find them."
+  },
+  {
+    "objectID": "posts/resources/index.html#data-science",
+    "href": "posts/resources/index.html#data-science",
+    "title": "Helpful resources",
+    "section": "Data Science",
+    "text": "Data Science\nA cool end-to-end course showing both local and remote DS life cycle steps : https://madewithml.com/\n(Spanish) A bit outdated but still useful Aprende con Alf\n\nPeople Analytics\nFundamentals of People Analytics with Applications in R\nSome details on how to do regression modelling applied to People Analytics\n\n\nFinance\nThis is a must for those working in Finance"
+  },
+  {
+    "objectID": "posts/resources/index.html#deep-learning",
+    "href": "posts/resources/index.html#deep-learning",
+    "title": "Helpful resources",
+    "section": "Deep Learning",
+    "text": "Deep Learning\nMust you must know:\n\nDeep Learning\nUnderstanding Deep Learning\nReally useful cheatsheets https://stanford.edu/~shervine/teaching/\nSome cool visualizations that help better understand the concept:\n\nML Visualized\n\n\n\nLLMs\nI can really recommend Sebastian Raschka’s magazine to deep dive into concepts and architectures. But there are many other resources available out there:\n\nFoundations of LLMs\nApplied LLMs has quite some resources you can explore\nHow to scale them\nBentoML’s take on inference\nAnthropic Academy\nExercises from the Book Hands on Large Language Models"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "&lt;iframe src=\"https://www.googletagmanager.com/ns.html?id=GTM-PLKHBRCG\" height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"&gt;&lt;/iframe&gt;\n\nHi! This is Iraitz, data and computing enthusiast. That is why you will see plenty things about Data Engineering, Scientific Computing and Machine Learning around here.\n\n\n\n\n\ntimeline\n    section Early Career (2008-2013)\n        2008-10 : Computer Science (UPV/EHU)\n                : NLP at Ixa taldea (UPV/EHU)\n                : AI Researcher (Fatronik-Tecnalia)\n        2010-13 : Master Mathematical Modeling (UPV/EHU)\n                : Lead Powerline Solutions Engineer (Arteche)\n    section Data Science Era (2014-2020)\n        2014-16 : Data Scientist (Panda Security)\n        2016-21 : Global Data Architect (Iberdrola)\n        2017-23 : Lecturer on Big Data & Business Intelligence (Deusto)\n                : Lecturer on Big Data & Business Intelligence (UOC)\n                : Lecturer (European Data Incubator)\n        2019-20 : Master Data Protection (UNIR)\n    section Leadership & Innovation (2021-2024)\n        2021-22 : Innovation Lead (SDG Group)\n                : Master Quantum Computing (UPM)\n        2022-23 : Lead Product Developer (Kipu Quantum)\n    section QML and HPC (2024-Present)\n        2024-... : PhD High Performance Computing (U. Oviedo)\n                 : Fractional CTO - Banking Transformation\n                 : QML Researcher & CTO (Falcondale)\n                 : Data Science Lecturer (The Bridge School)\n\n\n\n\n\n\nIf you would like to contact or chat, feel free to use my zcal at iraitz.info"
   }
 ]
