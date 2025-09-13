@@ -18,7 +18,7 @@ A cool end-to-end course showing both local and remote DS life cycle steps : [ht
 
 Fundamentals of People Analytics with [Applications in R](https://link.springer.com/book/10.1007/978-3-031-28674-2)
 
-Some details on how to do regression modelling applied to [People Analytics](https://peopleanalytics-regression-book.org/)
+Some details on how to do regression modelling applied to [People Analytics](https://peopleanalytics-regression-book.org/) or [graph and network algorithms](https://ona-book.org/)
 
 ### Finance
 
