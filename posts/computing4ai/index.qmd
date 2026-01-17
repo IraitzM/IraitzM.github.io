@@ -1,7 +1,7 @@
 ---
 title: "Computing for experiments"
 author: "Iraitz Montalban"
-date: 17-01-2026
+date: 01-17-2026
 categories: [slurm, kubernetes, skypilot]
 image: "icon.webp"
 ---
@@ -133,7 +133,7 @@ Not everything is perfect:
 
 When to pick what:
 
-- Use **hosted notebooks** for quick experiments, demos, or education. If they can be `marimo` notebooks, better (I am being objective here).
+- Use **hosted notebooks** for quick experiments, demos, or education. If they can be [marimo](https://molab.marimo.io/notebooks) notebooks, better (I am being objective here).
 - Use **Slurm** if you have an HPC center and need low-latency interconnects and tightly-coupled jobs. It is a pain to manage but hopefully your team will be doing that for you.
 - Use **Kubernetes** when standardizing on containers and you need integration with cloud-native tooling. This is often the case when apart from on-time executions there are other services benefiting from the heterogeneous nature of this type of resource management.
 - Use **Ray / Dask / Spark** when your workload maps naturally to their execution model (hyperparameter search, RL, data pipelines). Quite common on ML type of workloads and preferred when [databricks](https://www.databricks.com/) or [anyscale](https://www.anyscale.com/) deployments are available.
