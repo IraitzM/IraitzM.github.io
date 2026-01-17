@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/computing4ai/index.html",
       "/posts/orchestration/index.html",
       "/posts/resources/index.html",
       "/posts/tasks/index.html",

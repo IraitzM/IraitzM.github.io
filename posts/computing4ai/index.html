@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Iraitz Montalban">
-<meta name="dcterms.date" content="2025-06-25">
+<meta name="dcterms.date" content="2027-05-01">
 
-<title>Welcome – Iraitz’s blog</title>
+<title>Computing for experiments – Iraitz’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -90,12 +125,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Welcome – Iraitz’s blog">
+<meta property="og:title" content="Computing for experiments – Iraitz’s blog">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://IraitzM.github.io/posts/welcome/hi.png">
+<meta property="og:image" content="https://IraitzM.github.io/posts/computing4ai/icon.webp">
 <meta property="og:site_name" content="Iraitz's blog">
-<meta property="og:image:height" content="104">
-<meta property="og:image:width" content="146">
 </head>
 
 <body class="nav-fixed fullcontent quarto-light">
@@ -140,9 +173,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Welcome</h1>
+      <h1 class="title">Computing for experiments</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">news</div>
+                <div class="quarto-category">slurm</div>
+                <div class="quarto-category">kubernetes</div>
+                <div class="quarto-category">skypilot</div>
               </div>
                   </div>
   </div>
@@ -160,7 +195,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">June 25, 2025</p>
+        <p class="date">May 1, 2027</p>
       </div>
     </div>
     
@@ -182,11 +217,122 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 
-<p>Hi! My name is Iraitz Montalbán and I love to mess around with technology.</p>
-<p>Actually I am using this blog to explore new-<em>ish</em> technology and explain things so other can benefit from it and meanwhile, I can get a better understanding on it. So, sometimes I will be talking about Python or Julia and the controversy around which one is best, will be exploring really basic stuff so I can refresh my memory, maybe review a paper or simply just play around with a new tool.</p>
-<p>I will just let my curiosity drive this thing wherever it takes me. Happy that you want to join me.</p>
+<p>When running experiments — whether large-scale quantum simulations or heavy AI workloads such as model training and fine-tuning — managing compute, data, and software environments becomes the dominant operational task. Small, interactive hosted notebooks (for example, <a href="https://colab.research.google.com/">Google Colab</a> or <a href="https://www.kaggle.com/docs/notebooks">Kaggle Notebooks</a>) are great for prototypes and small-scale work, but they quickly hit limits: GPU availability, quota restrictions, data locality, or the need for repeatable, reproducible environments.</p>
+<p>At larger scale teams typically choose one (or a mix) of the following approaches: managed cloud services, on-premise batch schedulers, container-orchestration systems, or specialized distributed runtime frameworks. Each option has trade-offs in cost, complexity, and developer ergonomics. Below I summarize the common approaches, the pros/cons of each, and where a tool like SkyPilot can simplify life.</p>
+<section id="workload-managers" class="level2">
+<h2 class="anchored" data-anchor-id="workload-managers">Workload managers</h2>
+<ul>
+<li><p><strong>Slurm</strong> — a widely used batch scheduler for HPC centers (<a href="https://slurm.schedmd.com/">Slurm project</a>). Pros: mature, robust for tightly-coupled MPI/HPC workloads, good for fixed-cluster access control. Cons: cluster administration burden, less native support for cloud elasticity and modern container workflows.</p></li>
+<li><p><strong>Kubernetes</strong> — container orchestration for cloud-native workloads (<a href="https://kubernetes.io/">Kubernetes</a>). Pros: standard for microservices and containerized workloads, strong ecosystem (Helm, operators), can run on many clouds and on-prem. Cons: operational complexity for long-running GPU jobs and gang-scheduling; networking and storage need careful design for ML workloads.</p></li>
+<li><p><strong>Apache Spark</strong> — a distributed data processing engine (<a href="https://spark.apache.org/">Spark</a>). Pros: great for large-scale data pipelines and ETL, integrates well with data lakes. Cons: not optimized for iterative GPU-based training workflows — more focused on CPUs and data-parallel transformations.</p></li>
+<li><p><strong>Ray</strong> — a flexible distributed execution framework for Python (<a href="https://docs.ray.io/">Ray</a>). Pros: convenient for hyperparameter search, RL, and custom distributed Python tasks; integrates with many ML libraries. Cons: still operationally more complex than single-node runs; distribution semantics differ from Slurm/Kubernetes.</p></li>
+<li><p><strong>Dask</strong> — parallel computing in Python for data analytics (<a href="https://dask.org/">Dask</a>). Pros: easy CPU-scale-out for pandas-like workloads; integrates with cluster managers. Cons: GPU and ML-job support requires extra tooling (e.g., RAPIDS) and cluster configuration.</p></li>
+</ul>
+<p>Choosing between these often comes down to the team’s constraints: existing cluster investments, familiarity, security/compliance requirements, and whether the workload needs cloud elasticity or low-latency interconnects.</p>
+</section>
+<section id="on-prem-cloud-and-hybrid" class="level2">
+<h2 class="anchored" data-anchor-id="on-prem-cloud-and-hybrid">On-prem, cloud and hybrid</h2>
+<ul>
+<li><p><strong>On-prem</strong>: ideal when data cannot leave premises (regulatory/compliance), or when you have dedicated hardware and a predictable workload. Pros: full control, potentially lower long-term cost for stable demand. Cons: high upfront investment and ops burden.</p></li>
+<li><p><strong>Cloud</strong> (AWS, GCP, Azure): elastic, quick to provision, pay-as-you-go. Managed services (e.g., <a href="https://aws.amazon.com/batch/">AWS Batch</a>, <a href="https://cloud.google.com/vertex-ai">Vertex AI</a>, <a href="https://learn.microsoft.com/azure/machine-learning/">Azure ML</a>) simplify infra but can create vendor lock-in and unpredictable costs if not managed closely.</p></li>
+<li><p><strong>Hybrid / Multi-cloud</strong>: mixes on-prem and cloud to balance cost and capacity. Pros: flexibility and burst capacity. Cons: increased complexity (networking, identity, data sync).</p></li>
+</ul>
+<p>Important cross-cutting concerns:</p>
+<ul>
+<li><strong>Reproducibility &amp; environment management</strong>: containers (e.g., <a href="https://www.docker.com/">Docker</a>) or reproducible environment specs reduce “it works on my machine” problems. For HPC, <a href="https://apptainer.org/">Singularity / Apptainer</a> can be preferable.</li>
+<li><strong>Data locality</strong>: moving terabytes to the cloud is expensive; sometimes compute must be near data.</li>
+<li><strong>Cost management</strong>: cloud spot/preemptible instances can save 3–6x but require preemption recovery strategies.</li>
+</ul>
+</section>
+<section id="when-teams-struggle" class="level2">
+<h2 class="anchored" data-anchor-id="when-teams-struggle">When teams struggle</h2>
+<p>Many groups find themselves spending more time on provisioning, instance types, SSH access, dependency installs, and retry logic than on experiments. Common pain points:</p>
+<ul>
+<li>Choosing instance families (A100 vs V100 vs RTX) and regions.</li>
+<li>Handling preemptible/spot instance interruptions.</li>
+<li>Syncing large datasets and avoiding repeated installs.</li>
+<li>Using the same workflow for local dev, on-prem clusters, and cloud VMs.</li>
+</ul>
+<p>These frictions are why higher-level tooling that abstracts providers and clusters can be attractive. There are some services like <a href="https://modal.com/">Modal</a> that may simplify remote execution but in some cases you might need to have a holistic approach to all those resources.</p>
+<section id="enter-skypilot" class="level3">
+<h3 class="anchored" data-anchor-id="enter-skypilot">Enter SkyPilot</h3>
+<p><a href="https://github.com/skypilot-org/skypilot">SkyPilot</a> is an open-source project (originating from the Sky Computing Lab at UC Berkeley) that provides a unified interface to run jobs on a wide range of infrastructure: Kubernetes, Slurm, and 20+ cloud/backends including AWS, GCP, Azure, RunPod, Paperspace, Lambda Cloud and more.</p>
+<p>Why SkyPilot can be useful:</p>
+<ul>
+<li><strong>Single interface for many backends</strong>: write your job once (YAML or Python API) and run it on VMs, pods, or Slurm nodes without rewriting deployment scripts. The SkyPilot YAML describes resources, setup steps, and run commands and is portable across providers (<a href="https://docs.skypilot.co/en/latest/reference/yaml-spec.html">YAML spec</a>).</li>
+<li><strong>Automatic provisioning and retries</strong>: SkyPilot will find available and cheaper infra, provision nodes (VMs or pods), sync your workdir, run setup commands, and recover from common provisioning failures.</li>
+<li><strong>Spot / preemptible support</strong>: built-in support for spot instances and automatic recovery can yield substantial cost savings (<a href="https://docs.skypilot.co/en/latest/examples/managed-jobs.html#running-on-spot-instances">managed jobs &amp; spot examples</a>).</li>
+<li><strong>Local dev ergonomics</strong>: it supports SSH into pods/VMs, code sync, and reproduces a local development flow on remote infra.</li>
+<li><strong>Multi-cloud and hybrid</strong>: useful when you want to burst to cloud providers while still using on-prem resources or multiple clouds to avoid capacity limits.</li>
+</ul>
+<p>So, I decided to this it out on <a href="https://nebius.com/">nebius</a> as it is one of the many supported providers and I had already by mistake introduced some credits on it.</p>
+<p><img src="nebius-apps.png" class="img-fluid"></p>
+<p>Nebius has an Applications section where you can easily deploy one of the common usual suspects. Skypilot is available so that one can simply log in after it has been deployed.</p>
+<p><img src="skypilot-connect.png" class="img-fluid"></p>
+<p>It will tell you how to connect vía command line and thus gain access to the platform via Skypilot.</p>
+<p><img src="skypilot-dashboard.png" class="img-fluid"></p>
+<p>Then it is simply a matter of defining your job and the infra that is required in a YAML file that SkyPilot will use to create the required infra in the infra available (and failling back to the second best choice if needed).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">resources</span><span class="kw">:</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">  # Optional; if left out, automatically pick the cheapest cloud.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">infra</span><span class="kw">:</span><span class="at"> nebius</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">infra</span><span class="kw">:</span><span class="at"> aws</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">  # accelerators: 8x NVIDIA A100 GPU</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">cpus</span><span class="kw">:</span><span class="at"> 16+</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">memory</span><span class="kw">:</span><span class="at"> 64+</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Working directory (optional) containing the project codebase.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Its contents are synced to ~/sky_workdir/ on the cluster.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">workdir</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Typical use: pip install -r requirements.txt</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Invoked under the workdir (i.e., can use its files).</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">setup</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  echo "Running setup."</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  pip install uv</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  uv sync</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Typical use: make use of resources, such as running training.</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Invoked under the workdir (i.e., can use its files).</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">run</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  echo "Launching job!"</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  uv run myjob</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Vía a simple command line one can launch the job:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span><span class="op">&gt;</span> sky <span class="bu">jobs</span> launch scripts/launch-sky.yaml </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">YAML</span> to run: scripts/launch-sky.yaml</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Managed</span> job <span class="st">'sky-d9d0-iraitz'</span> will be launched on <span class="er">(</span><span class="ex">estimated</span><span class="kw">)</span><span class="bu">:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Considered</span> resources <span class="er">(</span><span class="ex">1</span> node<span class="kw">)</span><span class="bu">:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">----------------------------------------------------------------------------------------</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a> <span class="ex">INFRA</span>                INSTANCE             vCPUs   Mem<span class="er">(</span><span class="ex">GB</span><span class="kw">)</span>   <span class="ex">GPUS</span>   COST <span class="er">(</span><span class="ex">$</span><span class="kw">)</span>   <span class="ex">CHOSEN</span>   </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">----------------------------------------------------------------------------------------</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a> <span class="ex">Nebius</span> <span class="er">(</span><span class="ex">eu-north1</span><span class="kw">)</span>   <span class="ex">cpu-d3_16vcpu-64gb</span>   16      64        <span class="at">-</span>      0.40          ✔     </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">----------------------------------------------------------------------------------------</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="ex">Launching</span> a managed job <span class="st">'sky-d9d0-iraitz'</span>. Proceed<span class="pp">?</span> <span class="pp">[</span><span class="ss">Y/n</span><span class="pp">]</span>: Y</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="ex">⚙︎</span> Uploading files to API server</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>By launching a job, the infra gets provisioned and the job is logged. Easy peasy!</p>
+<p><img src="skypilot-jobs.png" class="img-fluid"></p>
+<p>Not everything is perfect:</p>
+<ul>
+<li><strong>Abstraction cost</strong>: like any abstraction, SkyPilot can hide low-level details. For teams that need fine-grained control of networking, specialized filesystem tuning, or complex shared storage, you may still need manual infra work.</li>
+<li><strong>Operational surface</strong>: SkyPilot itself becomes another component to understand and operate — for production-critical infra, consider the team’s capacity to manage and secure it.</li>
+<li><strong>Provider quotas and credentials</strong>: SkyPilot simplifies provisioning, but you still need cloud accounts, quotas, and credentials; onboarding these securely is required.</li>
+<li><strong>Maturity and features</strong>: SkyPilot is actively developed and rapidly evolving; check the project’s docs and GitHub (https://github.com/skypilot-org/skypilot) for the latest features and breaking changes.</li>
+</ul>
+</section>
+</section>
+<section id="some-recommemdations" class="level2">
+<h2 class="anchored" data-anchor-id="some-recommemdations">Some recommemdations</h2>
+<p>When to pick what:</p>
+<ul>
+<li>Use <strong>hosted notebooks</strong> for quick experiments, demos, or education. If they can be <code>marimo</code> notebooks, better (I am being objective here).</li>
+<li>Use <strong>Slurm</strong> if you have an HPC center and need low-latency interconnects and tightly-coupled jobs. It is a pain to manage but hopefully your team will be doing that for you.</li>
+<li>Use <strong>Kubernetes</strong> when standardizing on containers and you need integration with cloud-native tooling. This is often the case when apart from on-time executions there are other services benefiting from the heterogeneous nature of this type of resource management.</li>
+<li>Use <strong>Ray / Dask / Spark</strong> when your workload maps naturally to their execution model (hyperparameter search, RL, data pipelines). Quite common on ML type of workloads and preferred when <a href="https://www.databricks.com/">databricks</a> or <a href="https://www.anyscale.com/">anyscale</a> deployments are available.</li>
+<li>Consider <strong>SkyPilot</strong> when you want a single developer-friendly interface to run experiments across cloud providers, on-prem clusters, and Kubernetes/Slurm without rewriting launch scripts for every environment.</li>
+</ul>
+<p>See the <a href="https://docs.skypilot.co/">SkyPilot docs</a> for more info.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
