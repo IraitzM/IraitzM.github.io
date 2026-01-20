@@ -77,11 +77,18 @@
     "text": "Some recommemdations\nWhen to pick what:\n\nUse hosted notebooks for quick experiments, demos, or education. If they can be marimo notebooks, better (I am being objective here).\nUse Slurm if you have an HPC center and need low-latency interconnects and tightly-coupled jobs. It is a pain to manage but hopefully your team will be doing that for you.\nUse Kubernetes when standardizing on containers and you need integration with cloud-native tooling. This is often the case when apart from on-time executions there are other services benefiting from the heterogeneous nature of this type of resource management.\nUse Ray / Dask / Spark when your workload maps naturally to their execution model (hyperparameter search, RL, data pipelines). Quite common on ML type of workloads and preferred when databricks or anyscale deployments are available.\nConsider SkyPilot when you want a single developer-friendly interface to run experiments across cloud providers, on-prem clusters, and Kubernetes/Slurm without rewriting launch scripts for every environment.\n\nSee the SkyPilot docs for more info."
   },
   {
+    "objectID": "posts/deadcode/index.html",
+    "href": "posts/deadcode/index.html",
+    "title": "Dead code out",
+    "section": "",
+    "text": "Skylos is one of those functionalities that will help you remove dead code but also check for vulnerabilities in your code. This is particularly convenient when translating experiments to production code, the notebook to code transition that often times carries unused or non-relevant pieces of code.\nAs it is an AI-enhanced application, the choice of the LLM will definitely affect the outcome but if I were you I would give it a try. It will pay off!"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Iraitz’s blog",
     "section": "",
-    "text": "Computing for experiments\n\n\n\nslurm\n\nkubernetes\n\nskypilot\n\n\n\n\n\n\n\n\n\nJan 17, 2026\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nOrchestration\n\n\n\norchestration\n\npipelines\n\npython\n\n\n\n\n\n\n\n\n\nAug 3, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nHelpful resources\n\n\n\nresources\n\nbooks\n\ncheatsheets\n\n\n\n\n\n\n\n\n\nJul 15, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nTask automation\n\n\n\ntasks\n\npython\n\n\n\n\n\n\n\n\n\nJul 5, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nPython project management\n\n\n\ndependencies\n\npython\n\n\n\n\n\n\n\n\n\nJul 3, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation and sites\n\n\n\ndocs\n\npython\n\n\n\n\n\n\n\n\n\nJun 26, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\nIraitz Montalban\n\n\n\n\n\nNo matching items"
+    "text": "Dead code out\n\n\n\npython\n\nclean code\n\nskylos\n\n\n\n\n\n\n\n\n\nJan 19, 2026\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nComputing for experiments\n\n\n\nslurm\n\nkubernetes\n\nskypilot\n\n\n\n\n\n\n\n\n\nJan 17, 2026\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nOrchestration\n\n\n\norchestration\n\npipelines\n\npython\n\n\n\n\n\n\n\n\n\nAug 3, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nHelpful resources\n\n\n\nresources\n\nbooks\n\ncheatsheets\n\n\n\n\n\n\n\n\n\nJul 15, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nTask automation\n\n\n\ntasks\n\npython\n\n\n\n\n\n\n\n\n\nJul 5, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nPython project management\n\n\n\ndependencies\n\npython\n\n\n\n\n\n\n\n\n\nJul 3, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nDocumentation and sites\n\n\n\ndocs\n\npython\n\n\n\n\n\n\n\n\n\nJun 26, 2025\n\n\nIraitz Montalban\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome\n\n\n\nnews\n\n\n\n\n\n\n\n\n\nJun 25, 2025\n\n\nIraitz Montalban\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "posts/resources/index.html",

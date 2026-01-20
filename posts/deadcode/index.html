@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Iraitz Montalban">
-<meta name="dcterms.date" content="2025-06-26">
+<meta name="dcterms.date" content="2026-01-19">
 
-<title>Documentation and sites – Iraitz’s blog</title>
+<title>Dead code out – Iraitz’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +21,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -125,12 +90,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Documentation and sites – Iraitz’s blog">
+<meta property="og:title" content="Dead code out – Iraitz’s blog">
 <meta property="og:description" content="">
-<meta property="og:image" content="https://IraitzM.github.io/posts/quarto/quarto.png">
+<meta property="og:image" content="https://IraitzM.github.io/posts/deadcode/logo.png">
 <meta property="og:site_name" content="Iraitz's blog">
-<meta property="og:image:height" content="77">
-<meta property="og:image:width" content="320">
+<meta property="og:image:height" content="2048">
+<meta property="og:image:width" content="2048">
 </head>
 
 <body class="nav-fixed fullcontent quarto-light">
@@ -175,10 +140,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Documentation and sites</h1>
+      <h1 class="title">Dead code out</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">docs</div>
                 <div class="quarto-category">python</div>
+                <div class="quarto-category">clean code</div>
+                <div class="quarto-category">skylos</div>
               </div>
                   </div>
   </div>
@@ -196,16 +162,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">June 26, 2025</p>
+        <p class="date">January 19, 2026</p>
       </div>
     </div>
     
-      <div>
-      <div class="quarto-title-meta-heading">Modified</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date-modified">July 1, 2025</p>
-      </div>
-    </div>
       
     </div>
     
@@ -224,55 +184,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
 
-<p>Documentation sites are probably one of the most valuable resources a developer or researcher can have. A good documentation site is priceless. I have been developing documentation sites with the usual suspects for a while:</p>
-<ul>
-<li><a href="https://www.sphinx-doc.org/en/master/">Sphinx</a></li>
-<li><a href="https://squidfunk.github.io/mkdocs-material/">Material for MKDocs</a></li>
-</ul>
-<p>Sometimes hosted on <a href="https://about.readthedocs.com/">ReadTheDocs</a> which makes it really easy to deploy, in other cases hosted in Github Pages. During the last month I have been exploring <a href="https://quarto.org/">Quarto</a> which was one my <em>tech to review</em> list for a while. Really cool project indeed. In fact, this blog is all done using it.</p>
-<section id="markdown-first-level-citizen" class="level2">
-<h2 class="anchored" data-anchor-id="markdown-first-level-citizen">Markdown, first level citizen</h2>
-<p>It is challenging to build sites when you come from the data domain. No idea about CSS or Javascript but you want your site to look cool and engaging. Well, Quarto does this using pure Markdown like many others. It has its own extension <code>.qmd</code> but it also allows for Jupyter Notebooks or pure MD files to be rendered. This is often a challenge in other frameworks as you need to install extensions to do that (ex <a href="https://www.sphinx-doc.org/en/master/usage/markdown.html">Markdown on Sphinx</a>).</p>
-<p>Quarto supports those formats by default.</p>
-</section>
-<section id="and-code" class="level2">
-<h2 class="anchored" data-anchor-id="and-code">And code?</h2>
-<p>Well, it supports the infamous trifecta of languages that gave name to Jupyter (Julia, Python and R) but also <a href="https://observablehq.com/">Observable plots</a>.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://quarto.org/images/hello-observable.png" class="img-fluid figure-img" style="width:50.0%"></p>
-<figcaption>Observable example</figcaption>
-</figure>
-</div>
-<p>Just by simply adding <code>{python}</code> to your code blocks, if you are using <code>.qmd</code> extension, it will execute and render the page for you.</p>
-<div id="0717f801" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Hi from Python!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Hi from Python!</code></pre>
-</div>
-</div>
-<p>So you can simply install it and get you project running… Quarto will ask you about the type of project you would like to run…</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="project.png" class="img-fluid figure-img"></p>
-<figcaption>Quarto create</figcaption>
-</figure>
-</div>
-<p>So essentially with that you can create a plethora of content formats… checkout the <a href="https://quarto.org/docs/gallery/">gallery</a>.</p>
-</section>
-<section id="what-about-pdfs" class="level2">
-<h2 class="anchored" data-anchor-id="what-about-pdfs">What about PDFs?</h2>
-<p>Sometimes you need to render your site to a PDF (I know, I know) and things get tricky when PDF is involved. I used to use Sphinx when I knew there was a chance for that happening but know, Quarto has my back having the ease of use of MKDocs.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://quarto.org/docs/get-started/hello/images/qmd-how-it-works.png" class="img-fluid figure-img"></p>
-<figcaption>Format rendering</figcaption>
-</figure>
-</div>
-<p>You can have a look at Quarto’s guide, really easy to understand and start working and full of examples for articles, books or blogs such as this one to be created. Give it a chance.</p>
+<p><a href="https://github.com/duriantaco/skylos">Skylos</a> is one of those functionalities that will help you remove dead code but also check for vulnerabilities in your code. This is particularly convenient when translating experiments to production code, the notebook to code transition that often times carries unused or non-relevant pieces of code.</p>
+<p>As it is an AI-enhanced application, the choice of the LLM will definitely affect the outcome but if I were you I would give it a try. It will pay off!</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
