@@ -1,0 +1,11 @@
+---
+title: "Dead code out"
+author: "Iraitz Montalban"
+date: 01-19-2026
+categories: [python, clean code, skylos]
+image: "logo.png"
+---
+
+[Skylos](https://github.com/duriantaco/skylos) is one of those functionalities that will help you remove dead code but also check for vulnerabilities in your code. This is particularly convenient when translating experiments to production code, the notebook to code transition that often times carries unused or non-relevant pieces of code.
+
+As it is an AI-enhanced application, the choice of the LLM will definitely affect the outcome but if I were you I would give it a try. It will pay off!
