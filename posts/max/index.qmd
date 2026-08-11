@@ -1,0 +1,92 @@
+---
+title: "MAX from Modular"
+author: "Iraitz Montalban"
+date: 08-11-2026
+categories: [inference, modular, mojo]
+image: "icon.png"
+---
+
+Serving AI models has become a default requirement for most teams, but the tooling landscape is fragmented: [vLLM](https://github.com/vllm-project/vllm) here, [TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM) there, [llama.cpp](https://github.com/ggml-org/llama.cpp) for the laptop, each optimized for a different hardware stack and each with its own quirks. [MAX](https://docs.modular.com/max/) is [Modular](https://www.modular.com/)'s answer to that: a single, programmable stack for high-performance GenAI inference that aims to run well on any hardware — NVIDIA, AMD, and Apple Silicon included.
+
+Modular is the company behind [Mojo](https://mojolang.org/), the systems language for AI, and if the name rings a bell it might be because [Qualcomm completed the acquisition of Modular](https://www.modular.com/blog) in 2026. The project keeps moving fast, with releases several times a week and 500+ models supported out of the box. Let's see what it offers.
+
+## What is MAX
+
+MAX is an inference framework covering the full stack, from serving to GPU kernels:
+
+- **MAX Serving** a high-performance model server exposing [OpenAI-compatible endpoints](https://docs.modular.com/serve/text-to-text/). You point any OpenAI client at it and it just works.
+- **MAX Modeling** a PyTorch-like Python API to load, customize or build models, compiled as graphs for production performance. Hundreds of [supported architectures](https://docs.modular.com/models/) (DeepSeek, Gemma, Qwen, Kimi, Llama...) with Hugging Face integration.
+- **Mojo + MAX accelerator library** GPU programming abstractions to write custom kernels that run on NVIDIA, AMD and Apple GPUs. This is the secret sauce: kernels are written once and specialized per hardware at compile time.
+- **MAX CLI** the `max` command line tool: `max serve` to launch endpoints, `max generate` for one-shot inference without a server, `max encode` for embeddings, `max list` to browse supported architectures and `max benchmark` to measure it all.
+- **Deployment options** a ready-to-deploy [Docker container](https://docs.modular.com/container/), self-hosted endpoints, or [Modular Cloud](https://www.modular.com/cloud) (their fully managed offering).
+
+## Usages
+
+The most common things you can do with MAX today:
+
+- **Serve text models** with an OpenAI-compatible chat/completions endpoint, the bread and butter. One command and you have a production-_ish_ endpoint for any supported model.
+- **Multimodal inference**: image-to-text and even video-to-text with models like Gemma, plus image generation, video generation and an [embeddings endpoint](https://docs.modular.com/serve/embeddings/).
+- **Agentic workflows**: [function calling and tool use](https://docs.modular.com/serve/function-calling/) plus [structured output](https://docs.modular.com/serve/structured-output/) are first-class, which is what you want when the endpoint sits behind an agent (see my previous post on [agents in python](../agents/)).
+- **Fine-tuned models**: serve [LoRA adapters](https://docs.modular.com/serve/lora-adapters/) on top of a base model, so you can serve many task-specific variants from one server.
+- **Performance knobs**: [speculative decoding](https://docs.modular.com/serve/speculative-decoding/), [prefix caching with PagedAttention](https://docs.modular.com/serve/prefix-caching/), [quantization](https://docs.modular.com/develop/quantize/), and [recipes](https://docs.modular.com/serve/recipes/) that capture tuned serving configurations for a given model + hardware layout.
+- **Model bring-up**: take a trained Hugging Face model and [bring it into MAX](https://docs.modular.com/develop/) — from simply loading fine-tuned weights on a supported architecture, to implementing a fully custom architecture (there are even AI agent "skills" that help with the bring-up).
+- **Benchmarking**: [`max benchmark`](https://docs.modular.com/cli/benchmark/) (adapted from vLLM's tooling) runs comprehensive benchmarks against a live endpoint with datasets like ShareGPT, exporting shareable YAML configs for reproducibility.
+
+## Benefits
+
+Why pick MAX over the usual suspects?
+
+- **Performance you can verify**: MAX ships its own benchmarking tool rather than asking you to trust a marketing page. As an example of their published numbers, they report a **171% throughput improvement** on Gemma 3 27B serving on an AMD MI355X. Since the tooling is included, you can measure your own hardware/models and see the numbers for yourself.
+- **Hardware agnostic**: the same code runs on NVIDIA, AMD and Apple Silicon (and CPU-only, which is handy for local experiments). New hardware generations get supported quickly because kernels are compiled per-target rather than bolted on per-vendor.
+- **Zero vendor lock-in**: MAX doesn't depend on PyTorch, CUDA or ROCm at runtime. The practical consequences are pleasantly boring: dramatically smaller containers and faster cold starts, and one dependency instead of a stack of things to keep in sync.
+- **OpenAI-compatible**: no client changes needed, any tool or agent speaking the OpenAI API can point at a MAX endpoint.
+- **Open source and extensible**: the Python API, the model pipelines and all the GPU kernels are [open source](https://github.com/modular/modular), so you can read, learn from and patch the whole stack.
+- **Learning resources**: the [LLM Inference Handbook](https://www.modular.com/resources) (how inference actually works, from basics to production), [GPU Puzzles](https://github.com/modular/max-gpu-puzzles) for learning GPU programming with Mojo, and an Agentic Cookbook with turn-key applications.
+
+## Getting started
+
+First, the reality check: to see MAX perform as intended, Modular strongly recommends a datacenter-grade GPU (NVIDIA B200/H200/H100 or AMD MI355X/MI325X/MI300X). Consumer GPUs and Macs work — expect fewer compatible models and slower runs. System-wise you need macOS 15+ on Apple silicon, or Linux (Ubuntu 22.04+, glibc 2.34+) with Python 3.10–3.14; Windows is not supported natively but works through WSL. Check the [full requirements](https://docs.modular.com/packages/).
+
+Install with [pixi](https://pixi.sh/) (recommended) or your usual Python tooling, the package is `max-all` on conda/pixi and `max[all]` on pip/uv:
+
+```sh
+pixi init max-demo && cd max-demo
+pixi add max-all
+pixi shell
+```
+
+Then export your Hugging Face token (needed for gated models), agree to the model's license on its HF page, and serve:
+
+```sh
+export HF_TOKEN="hf_..."
+max serve --model meta-llama/Llama-3.1-8B-Instruct
+```
+
+It will download and compile the model and start the server. When you see `🚀 Server ready on http://0.0.0.0:8000`, talk to it with the standard OpenAI client:
+
+```python
+from openai import OpenAI
+
+client = OpenAI(base_url="http://localhost:8000/v1", api_key="EMPTY")
+
+completion = client.chat.completions.create(
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    messages=[{"role": "user", "content": "Who won the world series in 2020?"}],
+)
+
+print(completion.choices[0].message.content)
+```
+
+Note that the OpenAI client requires an `api_key` argument, but MAX doesn't need one, `"EMPTY"` does the trick.
+
+That's the whole loop: install, `max serve`, point an OpenAI client at it. From there you can add the fancier bits (LoRA adapters, speculative decoding, quantization), benchmark with `max benchmark`, or deploy with the official Docker container.
+
+Not everything is perfect:
+
+- **Moving target**: the recommended build is the nightly, released several times a week. Great if you want the latest fixes, but pin your versions and read the release notes if you're running anything serious.
+- **Hardware expectations**: the headline experience assumes datacenter GPUs. It runs on a Mac or a laptop GPU, but temper expectations on model coverage and speed.
+- **Coverage is not universal**: 500+ architectures is a lot, but not everything. Bringing up a genuinely new architecture is a real project (though tooling and agent-assisted bring-up are lowering that bar).
+- **Mojo is the price of depth**: you can use MAX purely from Python, but custom kernels and the deepest optimizations are written in Mojo, one more language to learn (a pythonic one, at least).
+- **Corporate context**: with the Qualcomm acquisition in 2026 the project is well-resourced, but it's worth keeping an eye on how the product and licensing evolve.
+
+If you want to go deeper, start with the [MAX docs](https://docs.modular.com/max/) and the [Modular GitHub](https://github.com/modular/modular). And if you enjoy understanding how things work under the hood, the LLM Inference Handbook is genuinely one of the best resources on the topic.
