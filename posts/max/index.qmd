@@ -89,4 +89,4 @@ Not everything is perfect:
 - **Mojo is the price of depth**: you can use MAX purely from Python, but custom kernels and the deepest optimizations are written in Mojo, one more language to learn (a pythonic one, at least).
 - **Corporate context**: with the Qualcomm acquisition in 2026 the project is well-resourced, but it's worth keeping an eye on how the product and licensing evolve.
 
-If you want to go deeper, start with the [MAX docs](https://docs.modular.com/max/) and the [Modular GitHub](https://github.com/modular/modular). And if you enjoy understanding how things work under the hood, the LLM Inference Handbook is genuinely one of the best resources on the topic.
+If you want to go deeper, start with the [MAX docs](https://docs.modular.com/max/) and the [Modular GitHub](https://github.com/modular/modular). And if you enjoy understanding how things work under the hood, the [LLM Inference Handbook](https://handbook.modular.com/) is genuinely one of the best resources on the topic.
