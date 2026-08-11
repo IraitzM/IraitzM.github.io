@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/max/index.html",
       "/posts/deadcode/index.html",
       "/posts/computing4ai/index.html",
       "/posts/orchestration/index.html",
