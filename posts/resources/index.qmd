@@ -6,43 +6,55 @@ categories: [resources, books, cheatsheets]
 image: "icon.webp"
 ---
 
-Every once in a while I ran into some interesting resources and I never know where to put them. Somehow bookmarks don't seem to work for resources that I use less frequently but I never know where to find them when I need them, so I decided to list them in this blog. That way, other can find them.
+I often come across interesting resources, but they tend to get lost among my bookmarks. This post is a living collection of the ones I want to revisit, shared in case they are useful to others too.
+
+## Programming
+
+### Python
+
+- [Calmcode](https://calmcode.io/) — Short, practical video courses on Python, data tools, and software development.
+
+### Julia
+
+- [Julia's learning hub](https://julialang.org/learning/) — The official collection of courses, tutorials, books, and exercises for getting started with the language.
+
+## Software development
+
+- [The Missing Semester of Your CS Education](https://missing.csail.mit.edu/) — An MIT course on the practical tools that complement a computer science education: the shell, editors, Git, debugging, and code quality.
+- [The Modern Software Developer](https://themodernsoftware.dev/) — Stanford's CS146S course on AI-native software development, including coding agents, MCP, agent skills, specification-driven development, and evaluation.
 
 ## Data Science
 
-A cool end-to-end course showing both local and remote DS life cycle steps : [https://madewithml.com/](https://madewithml.com/)
-
-(Spanish) A bit outdated but still useful [Aprende con Alf](https://aprendeconalf.es/)
-
-A classic when it comes to [machine learning from scratch](https://dafriedman97.github.io/mlbook/content/introduction.html)
+- [Made with ML](https://madewithml.com/) — An end-to-end course on developing and deploying machine-learning applications.
+- [Aprende con Alf](https://aprendeconalf.es/) *(in Spanish)* — A little outdated in places, but still a useful collection of programming, statistics, and machine-learning tutorials.
+- [Machine Learning from Scratch](https://dafriedman97.github.io/mlbook/content/introduction.html) — A classic resource for understanding machine-learning algorithms by deriving and implementing them from scratch.
 
 ### People Analytics
 
-Fundamentals of People Analytics with [Applications in R](https://link.springer.com/book/10.1007/978-3-031-28674-2)
-
-Some details on how to do regression modelling applied to [People Analytics](https://peopleanalytics-regression-book.org/) or [graph and network algorithms](https://ona-book.org/)
+- [Fundamentals of People Analytics: With Applications in R](https://link.springer.com/book/10.1007/978-3-031-28674-2) — An introduction to the field with hands-on examples.
+- [People Analytics: Regression Modelling](https://peopleanalytics-regression-book.org/) — A practical guide to regression modelling in a people-analytics context.
+- [Organizational Network Analysis](https://ona-book.org/) — Graph and network methods applied to people analytics.
 
 ### Finance
 
-This is a must for those working in [Finance](https://www.tidy-finance.org/python/)
+- [Tidy Finance with Python](https://www.tidy-finance.org/python/) — A must-read for applying reproducible data-science workflows to financial research.
 
 ## Deep Learning
 
-Must you must know:
+Foundational books and visual aids worth knowing:
 
-* [Deep Learning](https://www.deeplearningbook.org/)
-* [Understanding Deep Learning](https://udlbook.github.io/udlbook/)
-* Really useful cheatsheets [https://stanford.edu/~shervine/teaching/](https://stanford.edu/~shervine/teaching/)
-* Some cool visualizations that help better understand the concept:
-* * [ML Visualized](https://ml-visualized.com/)
+- [Deep Learning](https://www.deeplearningbook.org/) — A comprehensive reference for the mathematical and conceptual foundations of the field.
+- [Understanding Deep Learning](https://udlbook.github.io/udlbook/) — A modern, accessible textbook with accompanying figures and notebooks.
+- [Stanford's machine-learning cheatsheets](https://stanford.edu/~shervine/teaching/) — Concise summaries of machine-learning and deep-learning concepts.
+- [ML Visualized](https://ml-visualized.com/) — Visual explanations that help build intuition for machine-learning concepts.
 
-### LLMs
+### Large language models
 
-I can really recommend [Sebastian Raschka's magazine](https://magazine.sebastianraschka.com/) to deep dive into concepts and architectures. But there are many other resources available out there:
+I highly recommend [Sebastian Raschka's magazine](https://magazine.sebastianraschka.com/) for deep dives into concepts and architectures. Other useful resources include:
 
-* [Foundations of LLMs](https://arxiv.org/pdf/2501.09223)
-* [Applied LLMs](https://applied-llms.org/) has quite some resources you can explore
-* How to [scale them](https://jax-ml.github.io/scaling-book/)
-* BentoML's take on [inference](https://bentoml.com/llm/)
-* [Anthropic Academy](https://www.anthropic.com/learn)
-* Exercises from the Book [Hands on Large Language Models](https://github.com/HandsOnLLM/Hands-On-Large-Language-Models)
+- [Foundations of Large Language Models](https://arxiv.org/pdf/2501.09223) — A survey of the core ideas behind modern LLMs.
+- [Applied LLMs](https://applied-llms.org/) — A collection of practical resources for building with LLMs.
+- [How to Scale Your Model](https://jax-ml.github.io/scaling-book/) — A systems-oriented guide to scaling machine-learning models.
+- [BentoML's LLM inference guide](https://bentoml.com/llm/) — An introduction to inference concepts and optimization.
+- [Anthropic Academy](https://www.anthropic.com/learn) — Courses on working with Claude and building with Anthropic's tools.
+- [Hands-On Large Language Models](https://github.com/HandsOnLLM/Hands-On-Large-Language-Models) — Code and exercises accompanying the book.
