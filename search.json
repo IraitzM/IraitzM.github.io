@@ -137,21 +137,35 @@
     "href": "posts/resources/index.html",
     "title": "Helpful resources",
     "section": "",
-    "text": "Every once in a while I ran into some interesting resources and I never know where to put them. Somehow bookmarks don’t seem to work for resources that I use less frequently but I never know where to find them when I need them, so I decided to list them in this blog. That way, other can find them."
+    "text": "I often come across interesting resources, but they tend to get lost among my bookmarks. This post is a living collection of the ones I want to revisit, shared in case they are useful to others too."
+  },
+  {
+    "objectID": "posts/resources/index.html#programming",
+    "href": "posts/resources/index.html#programming",
+    "title": "Helpful resources",
+    "section": "Programming",
+    "text": "Programming\n\nPython\n\nCalmcode — Short, practical video courses on Python, data tools, and software development.\n\n\n\nJulia\n\nJulia’s learning hub — The official collection of courses, tutorials, books, and exercises for getting started with the language."
+  },
+  {
+    "objectID": "posts/resources/index.html#software-development",
+    "href": "posts/resources/index.html#software-development",
+    "title": "Helpful resources",
+    "section": "Software development",
+    "text": "Software development\n\nThe Missing Semester of Your CS Education — An MIT course on the practical tools that complement a computer science education: the shell, editors, Git, debugging, and code quality.\nThe Modern Software Developer — Stanford’s CS146S course on AI-native software development, including coding agents, MCP, agent skills, specification-driven development, and evaluation."
   },
   {
     "objectID": "posts/resources/index.html#data-science",
     "href": "posts/resources/index.html#data-science",
     "title": "Helpful resources",
     "section": "Data Science",
-    "text": "Data Science\nA cool end-to-end course showing both local and remote DS life cycle steps : https://madewithml.com/\n(Spanish) A bit outdated but still useful Aprende con Alf\nA classic when it comes to machine learning from scratch\n\nPeople Analytics\nFundamentals of People Analytics with Applications in R\nSome details on how to do regression modelling applied to People Analytics or graph and network algorithms\n\n\nFinance\nThis is a must for those working in Finance"
+    "text": "Data Science\n\nMade with ML — An end-to-end course on developing and deploying machine-learning applications.\nAprende con Alf (in Spanish) — A little outdated in places, but still a useful collection of programming, statistics, and machine-learning tutorials.\nMachine Learning from Scratch — A classic resource for understanding machine-learning algorithms by deriving and implementing them from scratch.\n\n\nPeople Analytics\n\nFundamentals of People Analytics: With Applications in R — An introduction to the field with hands-on examples.\nPeople Analytics: Regression Modelling — A practical guide to regression modelling in a people-analytics context.\nOrganizational Network Analysis — Graph and network methods applied to people analytics.\n\n\n\nFinance\n\nTidy Finance with Python — A must-read for applying reproducible data-science workflows to financial research."
   },
   {
     "objectID": "posts/resources/index.html#deep-learning",
     "href": "posts/resources/index.html#deep-learning",
     "title": "Helpful resources",
     "section": "Deep Learning",
-    "text": "Deep Learning\nMust you must know:\n\nDeep Learning\nUnderstanding Deep Learning\nReally useful cheatsheets https://stanford.edu/~shervine/teaching/\nSome cool visualizations that help better understand the concept:\n\nML Visualized\n\n\n\nLLMs\nI can really recommend Sebastian Raschka’s magazine to deep dive into concepts and architectures. But there are many other resources available out there:\n\nFoundations of LLMs\nApplied LLMs has quite some resources you can explore\nHow to scale them\nBentoML’s take on inference\nAnthropic Academy\nExercises from the Book Hands on Large Language Models"
+    "text": "Deep Learning\nFoundational books and visual aids worth knowing:\n\nDeep Learning — A comprehensive reference for the mathematical and conceptual foundations of the field.\nUnderstanding Deep Learning — A modern, accessible textbook with accompanying figures and notebooks.\nStanford’s machine-learning cheatsheets — Concise summaries of machine-learning and deep-learning concepts.\nML Visualized — Visual explanations that help build intuition for machine-learning concepts.\n\n\nLarge language models\nI highly recommend Sebastian Raschka’s magazine for deep dives into concepts and architectures. Other useful resources include:\n\nFoundations of Large Language Models — A survey of the core ideas behind modern LLMs.\nApplied LLMs — A collection of practical resources for building with LLMs.\nHow to Scale Your Model — A systems-oriented guide to scaling machine-learning models.\nBentoML’s LLM inference guide — An introduction to inference concepts and optimization.\nAnthropic Academy — Courses on working with Claude and building with Anthropic’s tools.\nHands-On Large Language Models — Code and exercises accompanying the book."
   },
   {
     "objectID": "posts/max/index.html",
