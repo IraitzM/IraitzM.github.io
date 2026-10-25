@@ -1,0 +1,189 @@
+---
+title: "Packaging and shipping Python packages"
+author: "Iraitz Montalban"
+date: 25-10-2026
+categories: [packaging, python]
+image: "packaging.png"
+---
+
+Packaging a Python project, particularly when compiled, has always been an added complexity for any added value proposition. Lately, helping a customer, I was confronted with the fact that not following the standard rules of software development and maintenance was not the only thing that goes wrong when moving towards production: releasing a package is a whole different beast, and when the beast has Rust fangs, it gets hairier.
+
+But what about releasing a package? How can one make a reliable delivery pipeline CI with some privacy for your initial beta-testing approaches? Here are some recommendations.
+
+## The easy case: pure Python
+
+Before adding Rust to the mix, it is worth remembering how little a pure Python package actually asks for. With no compiler in the picture there is nothing platform specific to build: the resulting wheel is tagged `py3-none-any`, so the very same file runs on Linux, macOS and Windows, on any Python 3 version. One build, one artefact, every user.
+
+```toml
+[project]
+name = "mypackage"
+version = "0.1.0"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["uv_build>=0.8"]
+build-backend = "uv_build"
+```
+
+```sh
+uv build     # dist/mypackage-0.1.0-py3-none-any.whl and the sdist
+uv publish   # trusted publishing, done
+```
+
+That is the whole delivery pipeline: two commands, no build matrix, no docker images, no glibc archaeology. It is also exactly what `uv init --package` hands you on a plate.
+
+The moment a single line of Rust enters the package, every one of those assumptions breaks. The rest of this post is about what breaks and how to put it back together.
+
+## The delivery contract: wheels, sdists and the compiler
+
+When a user runs `pip install mypackage`, pip looks for a compatible wheel first, and only falls back to building from the source distribution using the PEP 517 build backend when no wheel matches. For compiled packages that fallback means the user machine needs a Rust toolchain and Python headers, which is exactly why shipping prebuilt wheels is the game.
+
+## The Rust + Python story: maturin
+
+The de facto standard for Rust backed Python packages today is [maturin](https://www.maturin.rs/) together with the [PyO3](https://pyo3.rs/) bindings. The `pyproject.toml` is minimal:
+
+```toml
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+```
+
+From there, `maturin new --bindings pyo3`, `maturin develop`, `maturin build --release`... The [distribution guide](https://www.maturin.rs/distribution.html) is full of wisdom:
+
+- `maturin build --release --sdist --compatibility pypi --out dist` — the `--compatibility pypi` flag restricts the build to the platform tags accepted by PyPI and rejects unsupported operating systems and architectures.
+- `--manylinux 2014` for Linux wheels (the Rust compiler since version 1.64 requires at least glibc 2.17), or build with `maturin[zig]` and `--zig`.
+- The tool can check the generated library for manylinux compliance (an auditwheel reimplementation) and give the wheel the proper platform tag.
+- Enable the `abi3` feature in PyO3 to ship a single wheel covering multiple Python versions.
+- Optional PGO via `--pgo` and `pgo-command` in `[tool.maturin]`.
+- Cross compilation via manylinux docker images, `maturin-action`, or `cargo-xwin`.
+
+Alternatives considered: [setuptools-rust](https://setuptools-rust.readthedocs.io/en/latest/building_wheels.html), [hatch-maturin](https://hatch.pypa.io/latest/plugins/build/maturin/), and `uv_build` (pure Python only, so not for Rust).
+
+## Building a correct wheel
+
+Once the backend is chosen:
+
+```sh
+maturin build --release --sdist --compatibility pypi --out dist
+```
+
+## Validating before publishing
+
+- `python -m build`
+- `twine check dist/*`
+- clean venv install smoke test
+
+## Publishing
+
+- PyPI trusted publishing (OIDC)
+- `uv publish`
+- TestPyPI for betas
+- Private: Envelope.dev / private indexes
+
+## The Pixi way
+
+This is where [Pixi](https://pixi.prefix.dev/latest/) comes in, and I think it can cover most of it.
+
+The task runner is the glue that holds the delivery pipeline together. Instead of scattering commands across CI YAML files, you declare tasks in the manifest:
+
+```toml
+[tasks]
+build = { cmd = "maturin build --release --sdist --compatibility pypi --out dist", description = "Build wheels and sdist" }
+check = { cmd = "twine check dist/*", description = "Validate the distributions" }
+publish = { cmd = "uv publish", description = "Publish to PyPI" }
+```
+
+Tasks can depend on other tasks, declare `inputs`/`outputs` for caching, set `env` variables, accept task `args`, define a `default-environment`, and run through a cross-platform shell (`deno_task_shell`). Combined with environments and features, you can even run the same task against multiple Python versions.
+
+For the Rust side, Pixi gives you the toolchain reproducibly: `pixi add rust` pulls the Rust toolchain and cargo from conda-forge, and you can chain tasks such as `build = { cmd = "maturin build --release", depends-on = ["..."] }`.
+
+And the newest kid on the block: [Pixi Build](https://prefix.dev/blog/pixi-build) (currently in `preview = ["pixi-build"]`), with backends such as `pixi-build-python` (Python packages via hatchling/uv), `pixi-build-rust` (Cargo-based Rust apps) and `rattler-build` (declarative recipes). It even publishes to conda channels (`pixi publish`) and ships trusted publishing plus Sigstore attestations for the conda supply chain.
+
+---
+
+### Private package delivery with Envelope.dev
+
+When you can't publish to PyPI — whether for beta testing, proprietary code, or organizational policy — [Envelope.dev](https://envelope.dev) is a focused, Python-specific private package host. It integrates directly with `uv` (and pip/Poetry) and avoids the operational overhead of self-hosting.
+
+**Quick start with `uv`** (from the [Envelope docs](https://envelope.dev/blog/private-packages-with-uv)):
+
+```toml
+[[tool.uv.index]]
+name = "envelope"
+url = "https://app.envelope.dev/simple/"
+publish-url = "https://app.envelope.dev/legacy/"
+explicit = true
+```
+
+```bash
+export UV_PUBLISH_USERNAME=pypi
+export UV_PUBLISH_PASSWORD=your-api-key
+uv build --no-sources
+uv publish --index envelope
+```
+
+Pin each private package:
+
+```toml
+[tool.uv.sources]
+your-private-package = { index = "envelope" }
+```
+
+```bash
+export UV_INDEX_ENVELOPE_USERNAME=pypi
+export UV_INDEX_ENVELOPE_PASSWORD=your-api-key
+```
+
+**Pros:** unlimited packages (no per-repo pricing), fine-grained access via API keys, works natively with `uv`/`pip`/`Poetry`, $5/month Basic plan, minimal setup.  
+**Cons:** hosted service (not self-owned), currently Python-only (no Rust/wheel builder built in), younger ecosystem than Artifactory/JFrog.
+
+For a full comparison, see the [Envelope vs. Artifactory vs. pypiserver](https://envelope.dev/blog/private-python-packages-complete-setup-checklist) checklist.
+
+---
+
+### The Rust + Conda path: rattler-build
+
+For delivering compiled Rust-backed Python packages via the conda ecosystem (instead of PyPI), [rattler-build](https://rattler-build.prefix.dev/latest/) is the standout tool. Also from Prefix.dev, it's a Rust-built, standalone conda package builder that consumes declarative `recipe.yaml` files and produces fully relocatable conda packages.
+
+**Why rattler-build matters for Python + Rust:**
+
+- **Recipe-driven**: You write a `recipe.yaml` (inspired by `conda-build`) that declares source, build steps, and dependencies — no `pyproject.toml`-only magic. See [example Python recipe](https://rattler-build.prefix.dev/latest/) above.
+
+- **Cross-language**: Same tool builds C++, Rust, Fortran, Go, JS/Rust combos. The [rust tutorial](https://pixi.prefix.dev/latest/tutorials/rust/) shows `pixi add rust` → `pixi run cargo build`.
+
+- **Pixi integration**: Install globally via `pixi global install rattler-build` or add to a project with `pixi add rattler-build`. Tasks can chain: `build = { cmd = "rattler-build build", depends-on = [...] }`.
+
+- **Publish targets**: Packages can be published to prefix.dev channels, conda-forge, Quetz, Artifactory, S3, or CloudSmith via `rattler-build publish` or `pixi publish`.
+
+- **Sigstore attestations**: Built-in support for signing builds and attaching provenance — crucial for supply-chain-conscious distribution.
+
+- **Performance**: Rust-native, no Python/conda-build dependency, fast builds with caching.
+
+**Example workflow** (conda delivery of a Rust-Python package):
+
+1. Write `recipe.yaml` with source URL, build script (cargo + maturin or direct `cargo build`), and Python package dependency.
+2. `pixi run rattler-build build` (or `rattler-build build` if installed globally).
+3. `rattler-build publish --channel https://prefix.dev/conda-forge`
+4. Users install via `pixi install mypkg` or `mamba install mypkg`.
+
+**Pros:** single tool for all languages, Rust-native speed, conda-level reproducibility (environment pins, exact dependency resolution), Sigstore attestations, publishes to conda channels + PyPI-compatible indexes.  
+**Cons:** recipe format learning curve if you're only used to `pyproject.toml`; conda channels are a different distribution paradigm than PyPI; still-preview for some backends.
+
+For a side-by-side, see [migrating to rattler-build](https://georgheiler.com/2025/04/01/migrating-to-rattler-build): "The migration for simple Python packages is fairly straight forward and quick. The build time is drastically reduced by rattler-build!"
+
+---
+
+## TL;DR
+
+- **Pure Python**: one `py3-none-any` wheel fits everyone; `uv build` + `uv publish` is the entire pipeline.
+- **The delivery contract**: `pip install` prefers wheels and falls back to sdists, which for compiled packages means the user machine needs a Rust toolchain.
+- **Rust + Python**: go with [maturin](https://www.maturin.rs/) + [PyO3](https://pyo3.rs/).
+- **Build**: `maturin build --release --sdist --compatibility pypi`; `--manylinux 2014`; `abi3`; cross-compile via docker/`maturin-action`/`cargo-xwin`.
+- **Validate**: `python -m build`, `twine check dist/*`, clean venv install + smoke test.
+- **Publish (PyPI)**: trusted publishing via `uv publish`; TestPyPI for betas; private via Envelope.dev/private indexes.
+- **Publish (conda)**: `rattler-build` + `recipe.yaml`; publish to conda channels; Sigstore attestations; `pixi` as the orchestration layer.
+- **Pixi**: tasks as the pipeline glue; Pixi Build for the conda-flavored side; `pixi add rust` for the toolchain.
+
+---
+
+**Conda vs PyPI**: PyPI is the public index (`pip install` defaults to it); wheels are platform-tagged and uploaded once, while sdists require a build backend on the user's machine. Conda (via Pixi/rattler-build) packages relocatable environments with pinned dependency resolution, cross-language support (Rust, C++, Fortran), and channel-based distribution (conda-forge, prefix.dev). Use PyPI for maximal user reach; use conda when you need reproducibility across languages, compile once and deploy everywhere, or operate within an existing conda workflow.

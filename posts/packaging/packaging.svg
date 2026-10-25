@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101A24"/>
+      <stop offset="1" stop-color="#223344"/>
+    </linearGradient>
+    <linearGradient id="front" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5B9BCB"/>
+      <stop offset="1" stop-color="#3F7FAE"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="176" fill="url(#bg)"/>
+  <circle cx="500" cy="510" r="350" fill="#FFFFFF" opacity="0.035"/>
+  <ellipse cx="470" cy="792" rx="300" ry="34" fill="#000000" opacity="0.28"/>
+
+  <!-- parcel: top, front and right faces -->
+  <polygon points="240,470 326,384 702,384 616,470" fill="#7FB2D8"/>
+  <rect x="240" y="470" width="376" height="306" rx="12" fill="url(#front)"/>
+  <polygon points="616,470 702,384 702,690 616,776" fill="#2C648C"/>
+
+  <!-- python-yellow tape -->
+  <polygon points="404,470 490,384 534,384 448,470" fill="#FFD43B"/>
+  <rect x="404" y="470" width="44" height="306" rx="2" fill="#FFD43B"/>
+  <polygon points="448,470 534,384 534,408 448,494" fill="#E0AE23" opacity="0.55"/>
+
+  <!-- shipping label, kept inside the front face -->
+  <rect x="486" y="552" width="112" height="88" rx="9" fill="#FFFFFF" opacity="0.93"/>
+  <rect x="502" y="572" width="62" height="9" rx="4.5" fill="#2C648C"/>
+  <rect x="502" y="590" width="78" height="7" rx="3.5" fill="#9DB8CD"/>
+  <rect x="502" y="606" width="48" height="7" rx="3.5" fill="#9DB8CD"/>
+  <rect x="502" y="622" width="66" height="7" rx="3.5" fill="#9DB8CD"/>
+
+  <!-- rust gear -->
+  <path d="M 848.7,715.0 L 883.2,730.8 L 883.2,757.2 L 848.7,773.0 L 846.7,777.7 L 860.0,813.3 L 841.3,832.0 L 805.7,818.7 L 801.0,820.7 L 785.2,855.2 L 758.8,855.2 L 743.0,820.7 L 738.3,818.7 L 702.7,832.0 L 684.0,813.3 L 697.3,777.7 L 695.3,773.0 L 660.8,757.2 L 660.8,730.8 L 695.3,715.0 L 697.3,710.3 L 684.0,674.7 L 702.7,656.0 L 738.3,669.3 L 743.0,667.3 L 758.8,632.8 L 785.2,632.8 L 801.0,667.3 L 805.7,669.3 L 841.3,656.0 L 860.0,674.7 L 846.7,710.3 Z" fill="#CE422B"/>
+  <circle cx="772" cy="744" r="42" fill="#16222F" stroke="#F2F5F8" stroke-width="9"/>
+</svg>
