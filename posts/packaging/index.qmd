@@ -6,7 +6,7 @@ categories: [packaging, python]
 image: "packaging.png"
 ---
 
-Packaging a Python project, particularly when compiled, has always been an added complexity for any added value proposition. Lately, helping a customer, I was confronted with the fact that not following the standard rules of software development and maintenance was not the only thing that goes wrong when moving towards production: releasing a package is a whole different beast, and when the beast has Rust fangs, it gets hairier.
+Packaging a Python project, particularly when compiled, has always been an added complexity for any added value proposition. Releasing a package is a whole different beast, and when the beast has Rust fangs, it gets hairier.
 
 But what about releasing a package? How can one make a reliable delivery pipeline CI with some privacy for your initial beta-testing approaches? Here are some recommendations.
 
