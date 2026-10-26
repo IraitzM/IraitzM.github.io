@@ -1,7 +1,7 @@
 ---
 title: "Packaging and shipping Python packages"
 author: "Iraitz Montalban"
-date: 25-10-2026
+date: 10-25-2026
 categories: [packaging, python]
 image: "packaging.png"
 ---
